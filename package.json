@@ -4,7 +4,7 @@
   "author": "ebhardjan <ebhardjan@gmail.com>",
   "description": "Digital Jukebox",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">=0.12.x"
