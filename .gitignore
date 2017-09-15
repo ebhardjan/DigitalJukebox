@@ -58,4 +58,4 @@ typings/
 .env
 
 client_secret.txt
-
+.idea
