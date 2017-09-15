@@ -1,0 +1,19 @@
+{
+  "name": "DigitalJukebox",
+  "version": "0.0.0",
+  "author": "ebhardjan <ebhardjan@gmail.com>",
+  "description": "Digital Jukebox",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=0.12.x"
+  },
+  "dependencies": {
+    "express": "^4.12.3",
+    "socket.io": "^1.0.0"
+  },
+  "devDependencies": {
+  }
+}
+
