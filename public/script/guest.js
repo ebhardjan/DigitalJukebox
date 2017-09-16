@@ -55,6 +55,11 @@ function onToGuest(data) {
 	}
 }
 
+function onBackClick() {
+	switchToVenuesMode();
+	findVenues();
+}
+
 function findLocation(cb) {
 	// TODO
 	locationId = 'defaultlocation';
@@ -81,8 +86,6 @@ function findVenues() {
 }
 
 function onAvailableHosts(data) {
-	switchToVenuesMode();
-
 	var $venues = $('#venueslist');
 	$venues.empty();
 	if (data.hosts.length === 0) {
@@ -184,6 +187,7 @@ $(function(){
 	$('#search-spotify-submit').on('click', onSearchSpotify);
 	$('#youtube-url-submit').on('click', onAddYoutubeUrl);
 	$('#close-search-results').on('click', onCloseSearchResults);
+	$('#logo-small').on('click', onBackClick);
 
 	findLocation(function() {
 		establishConnection(function() {
