@@ -3,7 +3,6 @@ var $playlistview = null;
 var id = null;
 var socket = null;
 var socketId = null;
-var locationId = null;
 
 function getId() {
 	// TODO
@@ -19,12 +18,6 @@ function establishConnection(cb) {
 		socket.on('availableHosts', onAvailableHosts);
 		cb();
 	});
-}
-
-function findLocation(cb) {
-	// TODO
-	locationId = 'defaultlocation';
-	cb();
 }
 
 function switchToVenuesMode() {
