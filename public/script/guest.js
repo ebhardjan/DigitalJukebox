@@ -32,7 +32,7 @@ function updateSpotifySearchResults(results) {
 
 function onSearchSpotify(event) {
 	event.preventDefault();
-	var searchQuery = $('#search-spotify-input').val();
+	var searchQuery = $('#search-input').val();
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
@@ -147,7 +147,7 @@ function pushAddEntry(type, id, name) {
 
 function onAddYoutubeUrl(event) {
 	event.preventDefault();
-	var url = $('#youtube-url-input').val();
+	var url = $('#search-input').val();
 	var id = youtubeUrlToId(url);
 	if (!id) {
 		return alert('invalid youtube url!');
@@ -166,8 +166,9 @@ $(function(){
 
 	switchToVenuesMode();
 
-	$('#search-spotify').on('submit', onSearchSpotify);
-	$('#youtube-url').on('submit', onAddYoutubeUrl);
+	$('#add-content-form').on('submit', onSearchSpotify);
+	$('#search-spotify-submit').on('click', onSearchSpotify);
+	$('#youtube-url-submit').on('click', onAddYoutubeUrl);
 
 	findLocation(function() {
 		establishConnection(function() {
