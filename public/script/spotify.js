@@ -126,13 +126,14 @@ function updateCurrentlyPlaying() {
         const progress = parseInt(result['progress_ms']) / 1000;
         const length = parseInt(result['item']['duration_ms']) / 1000;
         const remaining = length - progress;
-        const image = result['item']['album']['images'][1]['url']; // this is the 300x300
+        const image = result['item']['album']['images'][2]['url']; // this is the largest one
         $('#current_song').text(song_name);
         $('#current_artist').text(artist_name);
         $('#progress').text(progress);
         $('#total_length').text(length);
         $('#remaining').text(remaining);
         $('#album-art').attr('src', image);
+        $('#background-image').css('background-image', 'url(' + image + ')');
         console.log(result);
     });
 }
