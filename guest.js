@@ -1,5 +1,6 @@
+const winston = require('winston');
 
-export default class Guest {
+module.exports = class Guest {
 	constructor(socket, data, hosts) {
 		this.socket = socket;
 		this.connectionId = socket.id;
@@ -31,12 +32,12 @@ export default class Guest {
 
 	onVote(data) {
 		if (!this.host) {
-			return console.log('guest: onVote with no host set!');
+			return winston.error('guest: onVote with no host set!');
 		}
 
 		const entry = this.host.playlist.getEntry(data.type, data.id);
 		if (!entry) {
-			return console.log(`guest: upVote on nonexisting playlist entry ${data.type}, ${data.id}!`);
+			return winston.error(`guest: upVote on nonexisting playlist entry ${data.type}, ${data.id}!`);
 		}
 		switch (data.dir) {
 			case 'up':
@@ -44,7 +45,7 @@ export default class Guest {
 			case 'down':
 				entry.voteDown(this); break;
 			default:
-				return console.log(`guest: onVote with invalid vote direction ${data.dir}!`);
+				return winston.error(`guest: onVote with invalid vote direction ${data.dir}!`);
 		}
 		this.host.pushPlaylistToGuests();
 	}

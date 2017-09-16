@@ -1,9 +1,10 @@
+const winston = require('winston');
 
 /**
  * Keep track of playlist of songs/videos.
  * Also keep track of already removed songs so they cannot be added again.
  */
-export class Playlist {
+class Playlist {
 	constructor(host) {
 		this.host = host;
 		this.list = [];
@@ -49,7 +50,7 @@ export class Playlist {
  *
  * We can extend this to a 9gag etc. entry and maintain separate playlists later on...
  */
-export class PlaylistEntry {
+class PlaylistEntry {
 	constructor(type, id, name, playlist) {
 		this.type = type; // 'youtube' or 'spotify'
 		this.id = id; // either video ID or song ID
@@ -85,3 +86,5 @@ export class PlaylistEntry {
 		return this.upvotes.size - this.downvotes.size;
 	}
 }
+
+module.exports = {Playlist, PlaylistEntry};

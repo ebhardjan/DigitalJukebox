@@ -1,8 +1,8 @@
 // handle host interaction here
+const winston = require('winston');
+const {Playlist, PlaylistEntry} = require('./playlist');
 
-import {Playlist, PlaylistEntry} from "./playlist";
-
-export default class Host {
+module.exports = class Host {
 
 	constructor(socket, data) {
 		this.socket = socket;
@@ -55,6 +55,5 @@ export default class Host {
 		this.pushPlaylist();
 		this.pushPlaylistToGuests();
 	}
-
-}
+};
 
