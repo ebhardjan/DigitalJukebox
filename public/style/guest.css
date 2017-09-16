@@ -1,14 +1,14 @@
-#venuesview {
+body {
+    background-color: #424242;
+}
 
+#venuesview {
+    position: relative;
+    height: auto;
 }
 
 #playlistview {
     display: none;
-}
-
-#venuesview, #playlistview {
-    width: 100%;
-    height: 100%;
 }
 
 #venuesnearby {
@@ -28,4 +28,49 @@
 .voting > div {
     margin-left: 5px;
     margin-right: 5px;
+}
+
+#content {
+    position: relative;
+    top: 5vw;
+    margin: auto;
+    width: 90vw;
+    height: calc(100vh - 10vw);
+}
+
+@media screen and (min-width: 765px) {
+    #content {
+        width: 700px;
+    }
+}
+
+.venue {
+    font-size: 1.5em;
+    padding: 8px 5px 5px 8px;
+    margin-bottom: 5px;
+    background-color: #212121;
+    border-radius: 3px;
+}
+
+.venue:hover {
+    background-color: #616161;
+}
+
+.playlistentry {
+    background-color: #212121;
+}
+
+#new {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #E64A19;
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    line-height: 58px;
+    border-radius: 26px;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 4px 5px 6px #212121;
 }

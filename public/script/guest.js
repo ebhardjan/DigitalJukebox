@@ -88,7 +88,7 @@ function onAvailableHosts(data) {
 	}
 	for (var i = 0; i < data.hosts.length; i++) {
 		(function(host){
-			var el = $('<div><a>name: ' + host.name + '</a></div>');
+			var el = $('<div class="venue"><a>' + host.name + '</a></div>');
 			el.on('click', function() {
 				switchToPlaylistMode();
 				pushPickHost(host.id);
@@ -136,6 +136,11 @@ function onSetPlaylist(data) {
 
 			$playlist.append(el);
 		})(data.playlist[i]);
+	}
+
+	if (data.playlist.length === 0) {
+        var $playlist = $('#playlist');
+        $playlist.html('The playlist is empty, add a song!<br><br>');
 	}
 }
 
