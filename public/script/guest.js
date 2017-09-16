@@ -147,9 +147,26 @@ function pushAddEntry(type, id, name) {
 	socket.emit('addEntry', {type: type, id: id, name: name});
 }
 
+function onAddYoutubeUrl() {
+	var url = $('#youtube-url').val();
+	var id = youtubeUrlToId(url);
+	if (!id) {
+		return alert('invalid youtube url!');
+	}
+	pushAddEntry('youtube', id, url);
+}
+
+function youtubeUrlToId(url) {
+	var matches = /.*?v=(.{11}).*/.exec(url);
+	return matches[1] || null;
+}
+
 $(function(){
 	$venuesview = $('#venuesview');
 	$playlistview = $('#playlistview');
-	$('#search-spotify').on('click', onSearchSpotify);
+
 	switchToVenuesMode();
+
+	$('#search-spotify').on('click', onSearchSpotify);
+	$('#add-youtube-url').on('click', onAddYoutubeUrl);
 });
