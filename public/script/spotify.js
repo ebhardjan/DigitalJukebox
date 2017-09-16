@@ -14,7 +14,7 @@ SpotifyPlayer.prototype.play = function (playlistElement, callback) {
     });
 };
 SpotifyPlayer.prototype.playRandom = function (callback) {
-    var playlistElement = {'id': 'spotify:track:3ZOEytgrvLwQaqXreDs2Jx'};
+    var playlistElement = {'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'};
     this.play(playlistElement, callback);
 };
 
