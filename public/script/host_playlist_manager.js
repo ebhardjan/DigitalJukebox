@@ -35,11 +35,13 @@ HostPlaylistManager.prototype.nextElement = function() {
             this.nextMeme();
             this.notifyServer(playlistElement);
             foundSong = true;
+            return;
         } else if (playlistelement.type === 'youtube') {
             this.youtubePlayer.play(playlistElement, this.nextElement.bind(this));
             this.showMemes = false;
             this.notifyServer(playlistElement);
             foundSong = true;
+            return;
         }
     }
     if (!foundSong) {
@@ -62,6 +64,7 @@ HostPlaylistManager.prototype.nextMeme = function() {
             this.memePlayer.play(playlistElement, nextMeme());
             this.notifyServer(playlistElement);
             foundMeme = true;
+            return;
         }
     }
     if (!foundMeme) {
