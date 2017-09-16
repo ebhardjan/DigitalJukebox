@@ -1,40 +1,47 @@
-function Manager(f) {
-    this.updatePlaylist = updatePlaylist;
+function HostPlaylistManager(f) {
     this.playlist = {};
     this.notifyServer = f;
     this.showMemes = false;
-    this.spotifyPlayer = spotifyPlayer;
-    this.youtubePlayer = youtubePlayer;
-    this.memePlayer = memePlayer;
+    this.spotifyPlayer = new SpotifyPlayer();
+    this.youtubePlayer = new YoutubePlayer();
+    this.memePlayer = new MemePlayer();
 }
 
-function updatePlaylist(playlist) {
+HostPlaylistManager.prototype.updatePlaylist = function(playlist) {
+    console.log('host playlist manager, updatePlaylist:' + JSON.stringify(playlist));
     this.playlist = playlist;
-}
+};
 
 /**
  * plays the next element from the playlist
  * if it's a spotify song, we also start showing memes off the playlist
  */
-function nextElement() {
+HostPlaylistManager.prototype.nextElement = function() {
+    console.log('PlaylistManager, nextElement()');
+
+    if (this.playlist === undefined) {
+        this.spotifyPlayer.playRandom(this.nextElement);
+    }
+
     var foundSong = false;
+
     for (var i = 0; i < this.playlist.length; i++) {
         var playlistElement = playlist[i];
         if (playlistElement.type === 'spotify') {
-            spotifyPlayer.play(playlistElement, nextElement);
+            this.spotifyPlayer.play(playlistElement, this.nextElement);
             this.showMemes = true;
             this.nextMeme();
             this.notifyServer(playlistElement);
             foundSong = true;
         } else if (playlistelement.type === 'youtube') {
-            youtubePlayer.play(playlistElement, nextElement);
+            this.youtubePlayer.play(playlistElement, this.nextElement);
             this.showMemes = false;
             this.notifyServer(playlistElement);
             foundSong = true;
         }
     }
     if (!foundSong) {
-        spotifyPlayer.playRandom(nextElement);
+        this.spotifyPlayer.playRandom(this.nextElement);
     }
 }
 
@@ -50,12 +57,12 @@ function nextMeme() {
     for (var i = 0; i < this.playlist.length; i++) {
         var playlistElement = playlist[i];
         if (playlistElement.type === '9gag') {
-            memePlayer.play(playlistElement, nextMeme());
+            this.memePlayer.play(playlistElement, nextMeme());
             this.notifyServer(playlistElement);
             foundMeme = true;
         }
     }
     if (!foundMeme) {
-        memePlayer.playRandomMeme(nextMeme());
+        this.memePlayer.playRandom(nextMeme());
     }
 }

@@ -1,23 +1,22 @@
 let access_token;
 let refresh_token;
 
-function SpotifyPlayer() {
-    this.play = play;
-    this.playRandom = playRandom;
-}
+function SpotifyPlayer() { }
 
-function play(playlistElement, callback) {
-    setTrackTo(playlistElement.id, function(data) {
-        console.log(remaining_time * 1000);
-        window.setTimeout(function f() {
-            callback();
-        }, remaining_time * 1000);
+SpotifyPlayer.prototype.play = function (playlistElement, callback) {
+    setTrackTo(playlistElement.id, function (data) {
+        getRemainingTime(function (remaining_time) {
+            console.log(remaining_time * 1000);
+            window.setTimeout(function f() {
+                callback();
+            }, remaining_time * 1000);
+        });
     });
-}
-
-function playRandom(callback) {
-    setTrackTo(spotify:track:3ZOEytgrvLwQaqXreDs2Jx)
-}
+};
+SpotifyPlayer.prototype.playRandom = function (callback) {
+    var playlistElement = {'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'};
+    this.play(playlistElement, callback);
+};
 
 /*
  Ajax Get and Put methods util methods
@@ -55,7 +54,7 @@ function doPut(endpoint, payload, callback) {
 //TODO: untested...
 function refreshAccessToken() {
     $.ajax({
-        url: '/refresh_token#refresh_token='+refresh_token,
+        url: '/refresh_token#refresh_token=' + refresh_token,
         success: function (response) {
             alert("successfully refreshed token?");
             console.log(response);
@@ -154,5 +153,5 @@ function setTrackTo(songID, callback) {
 }
 
 function searchSpotify(query, cb) {
-    doGet('search?q='+query+'&type=track', cb);
+    doGet('search?q=' + query + '&type=track', cb);
 }
