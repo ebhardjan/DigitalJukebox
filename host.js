@@ -38,12 +38,11 @@ module.exports = class Host {
 		for (let i = 0; i < this.playlist.list.length; i++) {
 			const entry = this.playlist.list[i];
 			if (entry.type === data.type && entry.id === data.id) {
-				this.playlist.list = this.playlist.list.slice(i);
+				this.playlist.list = this.playlist.list.slice(i + 1);
 				break;
 			}
 		}
-		this.pushPlaylistToGuests();
-		// TODO is there a race condition here?
+		this.pushPlaylistToAll();
 	}
 
 	/**
