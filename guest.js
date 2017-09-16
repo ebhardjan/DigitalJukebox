@@ -1,0 +1,73 @@
+const winston = require('winston');
+
+module.exports = class Guest {
+	constructor(socket, data, hosts) {
+		this.socket = socket;
+		this.connectionId = socket.id;
+		this.id = data.id;
+		this.availableHosts = hosts;
+		this.host = null;
+
+		socket.on('disconnect', this.onDisconnectGuest.bind(this));
+		socket.on('pickHost', this.onPickHost.bind(this));
+		socket.on('addEntry', this.onAddEntry.bind(this));
+		socket.on('vote', this.onVote.bind(this));
+
+		this.pushAvailableHosts();
+	}
+
+	onDisconnectGuest() {
+		if (this.host) {
+			this.host.guests.remove(this);
+		}
+	}
+
+	onPickHost(data) {
+		this.host = this.availableHosts.find(h => h.id === data.host) || null;
+		if (this.host) {
+			this.host.guests.add(this);
+			this.pushPlaylist();
+		}
+	}
+
+	onVote(data) {
+		if (!this.host) {
+			return winston.error('guest: onVote with no host set!');
+		}
+
+		const entry = this.host.playlist.getEntry(data.type, data.id);
+		if (!entry) {
+			return winston.error(`guest: upVote on nonexisting playlist entry ${data.type}, ${data.id}!`);
+		}
+		switch (data.dir) {
+			case 'up':
+				entry.voteUp(this); break;
+			case 'down':
+				entry.voteDown(this); break;
+			default:
+				return winston.error(`guest: onVote with invalid vote direction ${data.dir}!`);
+		}
+		this.host.pushPlaylistToGuests();
+	}
+
+	onAddEntry(data) {
+		if(this.host) {
+			this.host.playlist.addEntry(data.type, data.id, data.name);
+		}
+	}
+
+	/**
+	 * send up-to-date playlist to this guest.
+	 */
+	pushPlaylist() {
+		if (this.host) {
+			const playlist = this.host.playlist.serializeGuest();
+			this.socket.emit('setPlaylist', {playlist});
+		}
+	}
+
+	pushAvailableHosts() {
+		const hosts = this.availableHosts.map(h => ({name: h.name, id: h.id}));
+		socket.emit('availableHosts', {hosts});
+	}
+}
