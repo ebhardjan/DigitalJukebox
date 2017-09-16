@@ -69,3 +69,31 @@
     vertical-align: middle;
     box-shadow: 4px 5px 6px #212121;
 }
+
+#search-input {
+    margin: 0.8em 0;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.form-buttons input {
+    flex-basis: 100px;
+}
+
+#add-content-box {
+    position: fixed;
+    bottom: 2vh;
+    left: 3vw;
+    width: 90vw;
+    padding: 2vh 2vw;
+    z-index: 10;
+    background-color: #212121;
+    border-radius: 6px;
+}
+
+#add-content-box-placeholder {
+    height: 7em;
+}
