@@ -23,27 +23,14 @@
 
 </div>
 
-<div id="content">
-    <div id="player-view">
-        <div id="spotify-player">
-            <form>
-                <label>Next song</label>
-                <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
-                <input type="button" value="Go" onclick="setNextTrack()">
-            </form>
-            <form>
-                <label>Query</label>
-                <input type="text" id="query" value="query" size="100">
-                <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
-            </form>
-            <input type="button" value="startplayback" onclick="requestFullScreen(); playlistManager.nextElement();">
-        </div>
-        <div id="youtube-player">
-            <h3 id="video-title"></h3>
-            <div id="youtube-video"></div>
-        </div>
+<input type="button" value="startplayback" onclick="requestFullScreen(); playlistManager.nextElement();">
+<div id="youtube-wrapper">
+    <div id="youtube-player">
+        <h3 id="video-title"></h3>
+        <div id="youtube-video"></div>
     </div>
 </div>
+
 <div id="setup-view">
     <h2>Jukebox Admin</h2>
     <h3>Create New Venue</h3>

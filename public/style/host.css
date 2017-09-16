@@ -10,7 +10,6 @@
     filter: blur(5px);
 }
 #setup-view {
-
 }
 
 #player-view {
@@ -47,4 +46,16 @@
         left: 50%;
         margin: 30px calc(-500px + 5vw);
     }
+}
+
+#youtube-video {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+#youtube-wrapper {
+    display: none;
 }

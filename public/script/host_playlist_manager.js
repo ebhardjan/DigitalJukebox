@@ -22,6 +22,8 @@ HostPlaylistManager.prototype.nextElement = function() {
     if (this.playlist === undefined || this.playlist.playlist === undefined
         || this.playlist.playlist.length === 0) {
         this.spotifyPlayer.playRandom(this.nextElement.bind(this));
+        showSpotify();
+        hideYoutube();
         return;
     }
 
@@ -35,6 +37,8 @@ HostPlaylistManager.prototype.nextElement = function() {
             this.nextMeme();
             this.notifyServer(playlistElement);
             foundSong = true;
+            showSpotify();
+            hideYoutube();
             return;
         } else if (playlistElement.type === 'youtube') {
 
@@ -43,11 +47,15 @@ HostPlaylistManager.prototype.nextElement = function() {
             this.showMemes = false;
             this.notifyServer(playlistElement);
             foundSong = true;
+            showYoutube();
+            hideSpotify();
             return;
         }
     }
     if (!foundSong) {
         this.spotifyPlayer.playRandom(this.nextElement.bind(this));
+        showSpotify();
+        hideYoutube();
     }
 };
 

@@ -127,4 +127,26 @@ $(function() {
 	console.log(access_token);
 	updateCurrentlyPlaying();
 	console.log('playManager:' + JSON.stringify(playlistManager));
+	hideSpotify();
+	hideYoutube();
 });
+
+function hideYoutube() {
+    $('#youtube-wrapper').hide('fast');
+}
+
+function showYoutube() {
+    $('#youtube-wrapper').show('fast');
+}
+
+function hideSpotify() {
+    $('#spotify-info').hide('fast');
+}
+
+function showSpotify() {
+    $('#spotify-info').show('fast');
+}
+
+function hideSetupView() {
+    $('#setup-view').hide('fast');
+}
