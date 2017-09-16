@@ -8,7 +8,7 @@ function HostPlaylistManager(f) {
 }
 
 HostPlaylistManager.prototype.updatePlaylist = function(playlist) {
-    console.log('host playlist manager, updatePlaylist:' + JSON.stringify(playlist));
+    console.log('HostPlaylistManager: updatePlaylist to ' + JSON.stringify(playlist));
     this.playlist = playlist;
 };
 
@@ -19,36 +19,38 @@ HostPlaylistManager.prototype.updatePlaylist = function(playlist) {
 HostPlaylistManager.prototype.nextElement = function() {
     console.log('PlaylistManager, nextElement()');
 
-    if (this.playlist === undefined) {
-        this.spotifyPlayer.playRandom(this.nextElement);
+    if (this.playlist === undefined || this.playlist.playlist === undefined
+        || this.playlist.playlist.length === 0) {
+        this.spotifyPlayer.playRandom(this.nextElement.bind(this));
+        return;
     }
 
     var foundSong = false;
 
-    for (var i = 0; i < this.playlist.length; i++) {
-        var playlistElement = playlist[i];
+    for (var i = 0; i < this.playlist.playlist.length; i++) {
+        var playlistElement = this.playlist.playlist[i];
         if (playlistElement.type === 'spotify') {
-            this.spotifyPlayer.play(playlistElement, this.nextElement);
+            this.spotifyPlayer.play(playlistElement, this.nextElement.bind(this));
             this.showMemes = true;
             this.nextMeme();
             this.notifyServer(playlistElement);
             foundSong = true;
         } else if (playlistelement.type === 'youtube') {
-            this.youtubePlayer.play(playlistElement, this.nextElement);
+            this.youtubePlayer.play(playlistElement, this.nextElement.bind(this));
             this.showMemes = false;
             this.notifyServer(playlistElement);
             foundSong = true;
         }
     }
     if (!foundSong) {
-        this.spotifyPlayer.playRandom(this.nextElement);
+        this.spotifyPlayer.playRandom(this.nextElement.bind(this));
     }
-}
+};
 
 /**
  * plays the next meme on the meme player
  */
-function nextMeme() {
+HostPlaylistManager.prototype.nextMeme = function() {
     if (!this.showMemes) {
         return;
     }
@@ -63,6 +65,6 @@ function nextMeme() {
         }
     }
     if (!foundMeme) {
-        this.memePlayer.playRandom(nextMeme());
+        this.memePlayer.playRandom(this.nextMeme.bind(this));
     }
 }

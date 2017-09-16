@@ -1,18 +1,27 @@
 let access_token;
 let refresh_token;
 
-function SpotifyPlayer() { }
+function SpotifyPlayer() {
+    this.timeout = undefined;
+}
 
 SpotifyPlayer.prototype.play = function (playlistElement, callback) {
-    setTrackTo(playlistElement.id, function (data) {
-        getRemainingTime(function (remaining_time) {
-            console.log(remaining_time * 1000);
-            window.setTimeout(function f() {
-                callback();
-            }, remaining_time * 1000);
-        });
-    });
+    if (this.timeout !== undefined) {
+        this.timeout.cancel();
+        console.log("timeout cancelled");
+    }
+    setTrackTo(playlistElement.id, function() {
+        window.setTimeout(function() {
+            getRemainingTime(function (remaining_time) {
+                console.log(remaining_time * 1000);
+                this.timeout = window.setTimeout(function f() {
+                    console.log("next element callback");
+                    callback();
+                }, remaining_time * 1000 + 1000);
+            }.bind(this));
+        }, 1000)}.bind(this));
 };
+
 SpotifyPlayer.prototype.playRandom = function (callback) {
     var playlistElement = {'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'};
     this.play(playlistElement, callback);
