@@ -13,11 +13,12 @@ export class Playlist {
 	/**
 	 * Checks if entry has been added and voted out before, if not then add it to playlist.
 	 */
-	addEntry(type, id) {
+	addEntry(type, id, name) {
 		if (this.blacklist.has({type, id})) return;
 
-		const entry = PlaylistEntry(type, id, this);
+		const entry = PlaylistEntry(type, id, name, this);
 		this.list.push(entry);
+		this.host.pushPlaylistToAll();
 	}
 
 	getEntry(type, id) {
@@ -47,13 +48,13 @@ export class Playlist {
  * We can extend this to a 9gag etc. entry and maintain separate playlists later on...
  */
 export class PlaylistEntry {
-	constructor(type, id, playlist) {
+	constructor(type, id, name, playlist) {
 		this.type = type; // 'youtube' or 'spotify'
 		this.id = id; // either video ID or song ID
+		this.name = name;
+		this.playlist = playlist;
 		this.upvotes = new Set();
 		this.downvotes = new Set();
-		this.playlist = playlist;
-		// TODO add name?
 	}
 
 	voteUp(guest) {

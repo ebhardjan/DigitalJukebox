@@ -15,8 +15,12 @@ export default class Host {
 	}
 
 	onDisconnectHost() {
-		// TODO disconnect all clients?
-
+		// re-send the 'availableHosts' message. guest shall interpret that as a dropped connection.
+		this.guests.forEach(guest => {
+			guest.host = null;
+			guest.availableHosts.splice(guest.availableHosts.indexOf(this), 1);
+			guest.pushAvailableHosts()
+		});
 	}
 
 	/**

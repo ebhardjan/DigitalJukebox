@@ -20,6 +20,7 @@ const connections = new Map();
 const hosts = new Map();
 const guests = new Map();
 
+// handle socket.io requests
 io.on('connection', socket => {
 	connections.set(socket.id, socket);
 

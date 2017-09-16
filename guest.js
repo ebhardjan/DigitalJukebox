@@ -12,9 +12,7 @@ export default class Guest {
 		socket.on('addEntry', this.onAddEntry.bind(this));
 		socket.on('vote', this.onVote.bind(this));
 
-		socket.emit('availableHosts', {
-			hosts: this.availableHosts.map(h => ({name: h.name, id: h.id}))
-		});
+		this.pushAvailableHosts();
 	}
 
 	onDisconnectGuest() {
@@ -52,7 +50,9 @@ export default class Guest {
 	}
 
 	onAddEntry(data) {
-		// TODO
+		if(this.host) {
+			this.host.playlist.addEntry(data.type, data.id, data.name);
+		}
 	}
 
 	/**
@@ -63,5 +63,10 @@ export default class Guest {
 			const playlist = this.host.playlist.serializeGuest();
 			this.socket.emit('setPlaylist', {playlist});
 		}
+	}
+
+	pushAvailableHosts() {
+		const hosts = this.availableHosts.map(h => ({name: h.name, id: h.id}));
+		socket.emit('availableHosts', {hosts});
 	}
 }
