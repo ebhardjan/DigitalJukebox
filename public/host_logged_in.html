@@ -19,11 +19,10 @@
     <link href="https://fonts.googleapis.com/css?family=Khula" rel="stylesheet">
 </head>
 <body>
-<div id="background-image">
+<div id="background-image"></div>
 
-</div>
+<input id="go_button" type="button" value="Start" onclick="requestFullScreen(); $('#go_button').hide(); playlistManager.nextElement();">
 
-<input type="button" value="startplayback" onclick="requestFullScreen(); playlistManager.nextElement();">
 <div id="youtube-wrapper">
     <div id="youtube-player">
         <h3 id="video-title"></h3>
@@ -31,14 +30,19 @@
     </div>
 </div>
 
-<div id="setup-view">
-    <h2>Jukebox Admin</h2>
-    <h3>Create New Venue</h3>
-    <form id="new-venue">
-        <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
-        <input type="submit" />
-    </form>
+<div id="setup-view-container">
+    <h1 id="logo-big">DJ</h1>
+    <div class="max-outer">
+        <div id="setup-view" class="max-inner">
+            <h2>Create New Venue</h2>
+            <form id="new-venue">
+                <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
+                <input type="submit"/>
+            </form>
+        </div>
+    </div>
 </div>
+
 <div id="spotify-info">
     <img id="album-art" width="200" height="200">
     <div id="spotify-info-text">

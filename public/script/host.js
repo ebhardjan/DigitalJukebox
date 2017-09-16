@@ -42,7 +42,7 @@ function onNewVenue(event) {
     findLocation(function () {
         establishConnection(function () {
             socket.emit('registerHost', {id: id, name: name, locationId: locationId});
-            switchToPlayerView();
+            hideSetupView();
         });
     });
 }
@@ -61,12 +61,6 @@ function establishConnection(cb) {
 
 function switchToSetupView() {
     $setupView.show();
-    $playerView.hide();
-}
-
-function switchToPlayerView() {
-    $setupView.hide();
-    $playerView.show();
 }
 
 /**
@@ -125,10 +119,11 @@ $(function() {
 
 	checkLoginSetToken();
 	console.log(access_token);
-	updateCurrentlyPlaying();
+	//updateCurrentlyPlaying();
 	console.log('playManager:' + JSON.stringify(playlistManager));
 	hideSpotify();
 	hideYoutube();
+	$('#go_button').hide('fast');
 });
 
 function hideYoutube() {
@@ -148,5 +143,6 @@ function showSpotify() {
 }
 
 function hideSetupView() {
-    $('#setup-view').hide('fast');
+    $('#setup-view-container').hide('fast');
+    $('#go_button').show('fast');
 }

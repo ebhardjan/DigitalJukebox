@@ -18,6 +18,7 @@ SpotifyPlayer.prototype.play = function (playlistElement, callback) {
                     console.log("next element callback");
                     callback();
                 }, remaining_time * 1000 + 1000);
+                updateCurrentlyPlaying();
             }.bind(this));
         }, 1000)}.bind(this));
 };

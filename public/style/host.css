@@ -64,3 +64,22 @@ body {
 #youtube-wrapper {
     display: none;
 }
+
+#venuesview {
+    position: relative;
+    height: auto;
+}
+
+#setup-view-container {
+    position: relative;
+}
+
+#go_button {
+    position: fixed;
+    width: 100px;
+    height: 50px;
+    left: 50%;
+    margin-left: -50px;
+    top: 50%;
+    margin-top: -25px;
+}
