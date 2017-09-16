@@ -35,8 +35,9 @@ function updateSpotifySearchResults(results) {
 	}
 }
 
-function onSearchSpotify() {
-	var searchQuery = $('#search-spotify-query').val();
+function onSearchSpotify(event) {
+	event.preventDefault();
+	var searchQuery = $('#search-spotify-input').val();
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
@@ -147,8 +148,9 @@ function pushAddEntry(type, id, name) {
 	socket.emit('addEntry', {type: type, id: id, name: name});
 }
 
-function onAddYoutubeUrl() {
-	var url = $('#youtube-url').val();
+function onAddYoutubeUrl(event) {
+	event.preventDefault();
+	var url = $('#youtube-url-input').val();
 	var id = youtubeUrlToId(url);
 	if (!id) {
 		return alert('invalid youtube url!');
@@ -158,7 +160,7 @@ function onAddYoutubeUrl() {
 
 function youtubeUrlToId(url) {
 	var matches = /.*?v=(.{11}).*/.exec(url);
-	return matches[1] || null;
+	return (matches && matches[1]) || null;
 }
 
 $(function(){
@@ -167,6 +169,6 @@ $(function(){
 
 	switchToVenuesMode();
 
-	$('#search-spotify').on('click', onSearchSpotify);
-	$('#add-youtube-url').on('click', onAddYoutubeUrl);
+	$('#search-spotify').on('submit', onSearchSpotify);
+	$('#youtube-url').on('submit', onAddYoutubeUrl);
 });
