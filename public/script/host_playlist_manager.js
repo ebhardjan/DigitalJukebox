@@ -37,6 +37,7 @@ HostPlaylistManager.prototype.nextElement = function() {
             foundSong = true;
             return;
         } else if (playlistElement.type === 'youtube') {
+
             this.youtubePlayer.play(playlistElement, this.nextElement.bind(this));
             this.showMemes = false;
             this.notifyServer(playlistElement);
@@ -70,4 +71,4 @@ HostPlaylistManager.prototype.nextMeme = function() {
     if (!foundMeme) {
         this.memePlayer.playRandom(this.nextMeme.bind(this));
     }
-}
+};
