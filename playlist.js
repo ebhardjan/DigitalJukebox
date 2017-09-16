@@ -40,7 +40,7 @@ class Playlist {
 	 * how many up-/downvotes they have, ...
 	 */
 	serializeGuest() {
-		return this.list.map(e => ({type: e.type, id: e.id, balance: e.getBalance()}));
+		return this.list.map(e => ({type: e.type, id: e.id, balance: e.getBalance(), name: e.name}));
 	}
 }
 

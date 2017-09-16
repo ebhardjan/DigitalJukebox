@@ -134,9 +134,6 @@ function setTrackTo(songID) {
     });
 }
 
-function searchSpotify(query) {
-    doGet('search?q='+query+'&type=track', function(response) {
-        console.log(response);
-    });
-
+function searchSpotify(query, cb) {
+    doGet('search?q='+query+'&type=track', cb);
 }

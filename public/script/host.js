@@ -50,8 +50,24 @@ function switchToPlayerView() {
  */
 function onToHost(data) {
 	console.log('forwarded from guest ' + JSON.stringify(data));
-	// dummy answer to test out reverse tunnel
-	pushToGuest({guestId: data.guestId, songList: ['a', 'b', 'c']});
+	if(data.type === 'spotifySearchQuery') {
+		searchSpotify(data.payload, function(response) {
+			console.log('spotify search result');
+			console.log(response);
+
+			var items = response.tracks.items.slice(0, 20);
+			var guestData = [];
+			for(var i = 0; i < items.length; i++){
+				var item = items[i];
+				guestData.push({
+					name: item.artists[0].name + ' - ' + item.name,
+					id: item.uri
+				})
+			}
+
+			pushToGuest({type: 'spotifySearchResults', payload: guestData, guestId: data.guestId});
+		});
+	}
 }
 
 function pushToGuest(data) {

@@ -21,13 +21,22 @@ function establishConnection(cb) {
 	});
 }
 
-
 function updateSpotifySearchResults(results) {
-	console.log(results);
+	var $searchResults = $('#search-results');
+	$searchResults.empty();
+	for (var i = 0; i < results.length; i++) {
+		(function(song) {
+			var el = $('<div class="spotify-song">' + song.name + '</div>');
+			el.on('click', function() {
+				pushAddEntry('spotify', song.id, song.name);
+			});
+			$searchResults.append(el);
+		})(results[i]);
+	}
 }
 
 function onSearchSpotify() {
-	var searchQuery = $('#search_spotify').val();
+	var searchQuery = $('#search-spotify-query').val();
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
@@ -43,9 +52,9 @@ function pushToHost(data) {
  */
 function onToGuest(data) {
 	console.log('data from host: ' + JSON.stringify(data));
-	//if (data.type === 'spotify_search_results') {
-	//	updateSpotifySearchResults(data.payload);
-	//}
+	if (data.type === 'spotifySearchResults') {
+		updateSpotifySearchResults(data.payload);
+	}
 }
 
 function findLocation(cb) {
