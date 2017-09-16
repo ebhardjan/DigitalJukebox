@@ -3,10 +3,15 @@ var $playlistview = null;
 var id = null;
 var socket = null;
 var socketId = null;
-var location = null;
+var locationId = null;
+
+function getId() {
+	// TODO
+	return 'defaultid';
+}
 
 function establishConnection(cb) {
-	id =
+	id = getId();
 	socket = io();
 	socket.on('connect', function() {
 		socketId = socket.id;
@@ -18,14 +23,15 @@ function establishConnection(cb) {
 
 function findLocation(cb) {
 	// TODO
-	location = 'defaultlocation';
+	locationId = 'defaultlocation';
 	cb();
 }
 
 function switchToVenuesMode() {
 	$playlistview.hide();
 	$venuesview.show();
-	$venuesview.html('Connecting...');
+	var $venues = $('#venueslist');
+	$venues.html('Connecting...');
 
 	findLocation(function() {
 		establishConnection(function() {
@@ -35,12 +41,15 @@ function switchToVenuesMode() {
 }
 
 function findVenues() {
-	socket.emit('registerGuest', {});
+	socket.emit('registerGuest', {id: id, locationId: locationId});
 }
 
 function onAvailableHosts(data) {
 	var $venues = $('#venueslist');
-	$venues.clear();
+	$venues.empty();
+	if (data.hosts.length === 0) {
+		$venues.append('no venues found!');
+	}
 	for (var i = 0; i < data.hosts.length; i++) {
 		(function(host){
 			var el = $('<div><a>name: ' + host.name + '</a></div>');
@@ -60,14 +69,45 @@ function pushPickHost(id) {
 function switchToPlaylistMode() {
 	$venuesview.hide();
 	$playlistview.show();
-	$playlistview.html('Loading...');
+	var $playlist = $('#playlist');
+	$playlist.html('Loading...');
 }
 
-function onSetPlaylist() { }
+function onSetPlaylist(data) {
+	// re-render whole playlist
+	var $playlist = $('#playlist');
+	$playlist.empty();
 
-function pushVote() { }
+	for (var i = 0; i < data.playlist.length; i++) {
+		(function(entry) {
+			var upvote = $('<div class="upvote"/>');
+			var downvote = $('<div class="downvote"/>');
+			upvote.on('click', function() {
+				pushVote(entry, 'up');
+			});
+			downvote.on('click', function() {
+				pushVote(entry, 'down');
+			});
 
-function pushAddEntry() { }
+			var el = $('<div class="playlistentry"></div>');
+			el.append('type: ' + entry.type + '  name: ' + entry.name + ' ');
+			el.append(upvote);
+			el.append(entry.balance >= 0 ? '+' : '-');
+			el.append(entry.balance.toString());
+			el.append(downvote);
+
+			$playlist.append(el);
+		})(data.playlist[i]);
+	}
+}
+
+function pushVote(entry, dir) {
+	socket.emit('vote', {type: entry.type, id: entry.id, dir: dir});
+}
+
+function pushAddEntry(type, id, name) {
+	socket.emit('addEntry', {type: type, id: id, name: name});
+}
 
 $(function(){
 	$venuesview = $('#venuesview');
