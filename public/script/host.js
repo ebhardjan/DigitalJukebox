@@ -94,4 +94,9 @@ $(function() {
 	switchToSetupView();
 
 	$('#new-venue').on('click', onNewVenue);
+
+	checkLoginSetToken();
+	console.log(access_token);
+	updateCurrentlyPlaying();
+	console.log('playManager:' + JSON.stringify(playlistManager));
 });
