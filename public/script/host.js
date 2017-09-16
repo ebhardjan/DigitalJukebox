@@ -32,10 +32,7 @@ function establishConnection(cb) {
         console.log("connect");
         socketId = socket.id;
         socket.on('toHost', onToHost);
-        socket.on('setPlaylist', function (data) {
-            console.log('incoming playlist update');
-            playlistManager.updatePlaylist(data);
-        });
+        socket.on('setPlaylist', onSetPlaylist);
         cb();
     });
 }
@@ -85,6 +82,11 @@ function toGuest(data) {
 
 function setCurrentPlaylistEntry(data) {
     socket.emit('setCurrentPlaylistEntry', data);
+}
+
+function onSetPlaylist(data) {
+	console.log('incoming playlist update');
+	playlistManager.updatePlaylist(data);
 }
 
 $(function() {

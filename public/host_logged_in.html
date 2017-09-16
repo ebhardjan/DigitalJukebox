@@ -25,29 +25,35 @@
         <input type="submit" id="new-venue" />
     </div>
     <div id="player-view">
-        <ul>
-            <li>
-                Current Song: <span id="current_song"></span> - <span id="current_artist"></span>
-            </li>
-            <li>
-                Progress: <span id="progress"></span> / <span id="total_length"></span>
-            </li>
-            <li>
-                Remaining: <span id="remaining"></span>
-            </li>
-        </ul>
+        <div id="spotify-player">
+            <ul>
+                <li>
+                    Current Song: <span id="current_song"></span> - <span id="current_artist"></span>
+                </li>
+                <li>
+                    Progress: <span id="progress"></span> / <span id="total_length"></span>
+                </li>
+                <li>
+                    Remaining: <span id="remaining"></span>
+                </li>
+            </ul>
 
-        <form >
-            <label>Next song</label>
-            <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
-            <input type="button" value="Go" onclick="setNextTrack()">
-        </form>
-        <form >
-            <label>Query</label>
-            <input type="text" id="query" value="query" size="100">
-            <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
-        </form>
-        <input type="button" value="startplayback" onclick="playlistManager.nextElement()">
+            <form>
+                <label>Next song</label>
+                <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
+                <input type="button" value="Go" onclick="setNextTrack()">
+            </form>
+            <form>
+                <label>Query</label>
+                <input type="text" id="query" value="query" size="100">
+                <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
+            </form>
+            <input type="button" value="startplayback" onclick="playlistManager.nextElement()">
+        </div>
+        <div id="youtube-player">
+            <h3 id="video-title"></h3>
+            <div id="youtube-video"></div>
+        </div>
     </div>
 </div>
 
