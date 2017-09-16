@@ -1,8 +1,50 @@
-
+#background-image {
+    z-index: -1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
+    filter: blur(5px);
+}
 #setup-view {
 
 }
 
 #player-view {
     display: block;
+}
+
+#spotify-info {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 0;
+    margin: 30px 5vw;
+    width: 90vw;
+    background-color: #212121;
+    border-radius: 10px;
+}
+
+#spotify-info-text {
+    font-family: 'Acme', sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+    display: inline-block;
+    align-self: center;
+}
+
+#album-art {
+    display: inline-block;
+}
+
+@media screen and (min-width: 1000px) {
+    #spotify-info {
+        width: calc(1000px - 10vw);
+        left: 50%;
+        margin: 30px calc(-500px + 5vw);
+    }
 }

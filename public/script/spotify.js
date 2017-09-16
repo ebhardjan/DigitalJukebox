@@ -126,11 +126,13 @@ function updateCurrentlyPlaying() {
         const progress = parseInt(result['progress_ms']) / 1000;
         const length = parseInt(result['item']['duration_ms']) / 1000;
         const remaining = length - progress;
+        const image = result['item']['album']['images'][1]['url']; // this is the 300x300
         $('#current_song').text(song_name);
         $('#current_artist').text(artist_name);
         $('#progress').text(progress);
         $('#total_length').text(length);
         $('#remaining').text(remaining);
+        $('#album-art').attr('src', image);
         console.log(result);
     });
 }
