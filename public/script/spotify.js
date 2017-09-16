@@ -6,7 +6,7 @@ let refresh_token;
  */
 function doGet(endpoint, callback) {
     $.ajax({
-        url: 'https://api.spotify.com/v1/me/' + endpoint,
+        url: 'https://api.spotify.com/v1/' + endpoint,
         headers: {
             'Authorization': 'Bearer ' + access_token
         },
@@ -18,7 +18,7 @@ function doGet(endpoint, callback) {
 
 function doPut(endpoint, payload, callback) {
     $.ajax({
-        url: 'https://api.spotify.com/v1/me/' + endpoint,
+        url: 'https://api.spotify.com/v1/' + endpoint,
         type: 'put',
         data: JSON.stringify(payload),
         headers: {
@@ -88,7 +88,7 @@ function _getHashParams() {
  * update the displayed name, album art etc.
  */
 function updateCurrentlyPlaying() {
-    doGet('player/currently_playing', function (result) {
+    doGet('me/player/currently_playing', function (result) {
         const song_name = result['item']['name'];
         const artist_name = result['item']['artists'][0]['name'];
         const progress = parseInt(result['progress_ms']) / 1000;
@@ -108,7 +108,7 @@ function updateCurrentlyPlaying() {
  * callback with the remaining time as the first argument
  */
 function getRemainingTime(callback) {
-    doGet('player/currently_playing', function (result) {
+    doGet('me/player/currently_playing', function (result) {
         const progress = parseInt(result['progress_ms']) / 1000;
         const length = parseInt(result['item']['duration_ms']) / 1000;
         const remaining = length - progress;
@@ -129,7 +129,14 @@ function setNextTrack() {
 function setTrackTo(songID) {
     const payload = {'uris': [songID]};
     console.log(payload);
-    doPut('player/play', payload, function (data) {
+    doPut('me/player/play', payload, function (data) {
         updateCurrentlyPlaying();
     });
+}
+
+function searchSpotify(query) {
+    doGet('search?q='+query+'&type=track', function(response) {
+        console.log(response);
+    });
+
 }

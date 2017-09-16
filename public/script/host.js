@@ -26,9 +26,11 @@ function onNewVenue() {
 
 function establishConnection(cb) {
 	socket = io();
+	console.log('estabslish connection');
 	socket.on('connect', function() {
+		console.log("connect");
 		socketId = socket.id;
-
+		socket.on('toHost', onToHost);
 		cb();
 	});
 }
@@ -43,6 +45,19 @@ function switchToPlayerView() {
 	$playerView.show();
 }
 
+/**
+ * forwarded from guest
+ */
+function onToHost(data) {
+	console.log('forwarded from guest ' + JSON.stringify(data));
+	// dummy answer to test out reverse tunnel
+	pushToGuest({guestId: data.guestId, songList: ['a', 'b', 'c']});
+}
+
+function pushToGuest(data) {
+	socket.emit('toGuest', data);
+}
+
 $(function() {
 	var $newVenue = $('#new-venue');
 	$setupView = $('#setup-view');
@@ -52,3 +67,8 @@ $(function() {
 
 	$newVenue.on('click', onNewVenue);
 });
+
+function toGuest(data) {
+	socket.emit('toGuest', data);
+}
+

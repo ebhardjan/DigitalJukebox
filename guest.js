@@ -12,6 +12,7 @@ module.exports = class Guest {
 		socket.on('pickHost', this.onPickHost.bind(this));
 		socket.on('addEntry', this.onAddEntry.bind(this));
 		socket.on('vote', this.onVote.bind(this));
+		socket.on('toHost', this.onToHost.bind(this));
 
 		this.pushAvailableHosts();
 	}
@@ -57,6 +58,18 @@ module.exports = class Guest {
 	}
 
 	/**
+	 * forward to host
+	 */
+	onToHost(data) {
+		winston.debug(`guest: tunnel to host`, data);
+		if (this.host) {
+			this.host.pushToHost({...data, guestId: this.id});
+		} else {
+			winston.error(`guest: no host set!`);
+		}
+	}
+
+	/**
 	 * send up-to-date playlist to this guest.
 	 */
 	pushPlaylist() {
@@ -69,5 +82,12 @@ module.exports = class Guest {
 	pushAvailableHosts() {
 		const hosts = this.availableHosts.map(h => ({name: h.name}));
 		this.socket.emit('availableHosts', {hosts});
+	}
+
+	/**
+	 * forward to guest
+	 */
+	pushToGuest(data) {
+		this.socket.emit('toGuest', data);
 	}
 };

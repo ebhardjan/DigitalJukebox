@@ -16,8 +16,42 @@ function establishConnection(cb) {
 		socketId = socket.id;
 		socket.on('setPlaylist', onSetPlaylist);
 		socket.on('availableHosts', onAvailableHosts);
+		socket.on('toGuest', onToGuest);
 		cb();
 	});
+}
+
+
+function updateSpotifySearchResults(results) {
+	console.log(results);
+}
+
+function onSearchSpotify() {
+	var searchQuery = $('#search_spotify').val();
+	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
+}
+
+/**
+ * forward to host
+ */
+function pushToHost(data) {
+	socket.emit('toHost', data);
+}
+
+/**
+ * forwarded from host
+ */
+function onToGuest(data) {
+	console.log('data from host: ' + JSON.stringify(data));
+	//if (data.type === 'spotify_search_results') {
+	//	updateSpotifySearchResults(data.payload);
+	//}
+}
+
+function findLocation(cb) {
+	// TODO
+	locationId = 'defaultlocation';
+	cb();
 }
 
 function switchToVenuesMode() {
@@ -105,8 +139,6 @@ function pushAddEntry(type, id, name) {
 $(function(){
 	$venuesview = $('#venuesview');
 	$playlistview = $('#playlistview');
-	$('#next-song').on('click', function () {
-		pushAddEntry('spotify', $('#song-id').val(), 'some song');
-	});
+	$('#search-spotify').on('click', onSearchSpotify);
 	switchToVenuesMode();
 });

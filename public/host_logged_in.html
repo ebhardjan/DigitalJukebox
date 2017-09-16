@@ -42,6 +42,11 @@
             <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
             <input type="button" value="Go" onclick="setNextTrack()">
         </form>
+        <form >
+            <label>Query</label>
+            <input type="text" id="query" value="query" size="100">
+            <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
+        </form>
     </div>
 </div>
 
