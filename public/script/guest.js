@@ -4,11 +4,6 @@ var id = null;
 var socket = null;
 var socketId = null;
 
-function getId() {
-	// TODO
-	return Math.random().toString();
-}
-
 function establishConnection(cb) {
 	id = getId();
 	socket = io();
@@ -35,8 +30,9 @@ function updateSpotifySearchResults(results) {
 	}
 }
 
-function onSearchSpotify() {
-	var searchQuery = $('#search-spotify-query').val();
+function onSearchSpotify(event) {
+	event.preventDefault();
+	var searchQuery = $('#search-spotify-input').val();
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
@@ -68,12 +64,6 @@ function switchToVenuesMode() {
 	$venuesview.show();
 	var $venues = $('#venueslist');
 	$venues.html('Connecting...');
-
-	findLocation(function() {
-		establishConnection(function() {
-			findVenues();
-		});
-	});
 }
 
 function findVenues() {
@@ -81,6 +71,8 @@ function findVenues() {
 }
 
 function onAvailableHosts(data) {
+	switchToVenuesMode();
+
 	var $venues = $('#venueslist');
 	$venues.empty();
 	if (data.hosts.length === 0) {
@@ -92,6 +84,7 @@ function onAvailableHosts(data) {
 			el.on('click', function() {
 				switchToPlaylistMode();
 				pushPickHost(host.id);
+				$('#playlistname').html('Playlist at ' + host.name);
 			});
 			$venues.append(el);
 		})(data.hosts[i]);
@@ -99,7 +92,7 @@ function onAvailableHosts(data) {
 }
 
 function pushPickHost(id) {
-	socket.emit('pickHost', {host: id});
+	socket.emit('pickHost', {hostId: id});
 }
 
 function switchToPlaylistMode() {
@@ -116,8 +109,8 @@ function onSetPlaylist(data) {
 
 	for (var i = 0; i < data.playlist.length; i++) {
 		(function(entry) {
-			var upvote = $('<div class="upvote">up</div>');
-			var downvote = $('<div class="downvote">down</div>');
+			var upvote = $('<div class="upvote"><i class="fa fa-thumbs-up"></i></div>');
+			var downvote = $('<div class="downvote"><i class="fa fa-thumbs-down"></i></div>');
 			upvote.on('click', function() {
 				pushVote(entry, 'up');
 			});
@@ -152,9 +145,33 @@ function pushAddEntry(type, id, name) {
 	socket.emit('addEntry', {type: type, id: id, name: name});
 }
 
+function onAddYoutubeUrl(event) {
+	event.preventDefault();
+	var url = $('#youtube-url-input').val();
+	var id = youtubeUrlToId(url);
+	if (!id) {
+		return alert('invalid youtube url!');
+	}
+	pushAddEntry('youtube', id, url);
+}
+
+function youtubeUrlToId(url) {
+	var matches = /.*?v=(.{11}).*/.exec(url);
+	return (matches && matches[1]) || null;
+}
+
 $(function(){
 	$venuesview = $('#venuesview');
 	$playlistview = $('#playlistview');
-	$('#search-spotify').on('click', onSearchSpotify);
+
 	switchToVenuesMode();
+
+	$('#search-spotify').on('submit', onSearchSpotify);
+	$('#youtube-url').on('submit', onAddYoutubeUrl);
+
+	findLocation(function() {
+		establishConnection(function() {
+			findVenues();
+		});
+	});
 });

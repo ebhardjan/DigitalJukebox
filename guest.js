@@ -24,7 +24,7 @@ module.exports = class Guest {
 	}
 
 	onPickHost(data) {
-		this.host = this.availableHosts.find(h => h.id === data.host) || null;
+		this.host = this.availableHosts.find(h => h.id === data.hostId) || null;
 		if (this.host) {
 			this.host.guests.add(this);
 			this.pushPlaylist();
@@ -80,7 +80,7 @@ module.exports = class Guest {
 	}
 
 	pushAvailableHosts() {
-		const hosts = this.availableHosts.map(h => ({name: h.name}));
+		const hosts = this.availableHosts.map(h => ({name: h.name, id: h.id}));
 		this.socket.emit('availableHosts', {hosts});
 	}
 

@@ -5,3 +5,8 @@ function findLocation(cb) {
 	locationId = 'defaultlocation';
 	cb();
 }
+
+function getId() {
+	// TODO
+	return Math.random().toString();
+}

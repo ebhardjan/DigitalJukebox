@@ -8,52 +8,53 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="script/common.js"></script>
+    <script src="script/host_playlist_manager.js"></script>
     <script src="script/spotify.js"></script>
     <script src="script/youtube.js"></script>
     <script src="script/meme.js"></script>
-    <script src="script/host_playlist_manager.js"></script>
     <script src="script/host.js"></script>
 </head>
 <body>
-<script>
-    checkLoginSetToken();
-    console.log(access_token);
-    updateCurrentlyPlaying();
-    console.log('playManager:' + JSON.stringify(playlistManager));
-</script>
 
 <div id="content">
     <h2>Jukebox Admin</h2>
     <div id="setup-view">
         <h3>Create New Venue</h3>
-        <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
-        <p>Spotify Login: [...]</p>
-        <input type="submit" id="new-venue" />
+        <form id="new-venue">
+            <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
+            <input type="submit" />
+        </form>
     </div>
     <div id="player-view">
-        <ul>
-            <li>
-                Current Song: <span id="current_song"></span> - <span id="current_artist"></span>
-            </li>
-            <li>
-                Progress: <span id="progress"></span> / <span id="total_length"></span>
-            </li>
-            <li>
-                Remaining: <span id="remaining"></span>
-            </li>
-        </ul>
+        <div id="spotify-player">
+            <ul>
+                <li>
+                    Current Song: <span id="current_song"></span> - <span id="current_artist"></span>
+                </li>
+                <li>
+                    Progress: <span id="progress"></span> / <span id="total_length"></span>
+                </li>
+                <li>
+                    Remaining: <span id="remaining"></span>
+                </li>
+            </ul>
 
-        <form >
-            <label>Next song</label>
-            <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
-            <input type="button" value="Go" onclick="setNextTrack()">
-        </form>
-        <form >
-            <label>Query</label>
-            <input type="text" id="query" value="query" size="100">
-            <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
-        </form>
-        <input type="button" value="startplayback" onclick="playlistManager.nextElement()">
+            <form>
+                <label>Next song</label>
+                <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
+                <input type="button" value="Go" onclick="setNextTrack()">
+            </form>
+            <form>
+                <label>Query</label>
+                <input type="text" id="query" value="query" size="100">
+                <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
+            </form>
+            <input type="button" value="startplayback" onclick="playlistManager.nextElement()">
+        </div>
+        <div id="youtube-player">
+            <h3 id="video-title"></h3>
+            <div id="youtube-video"></div>
+        </div>
     </div>
 </div>
 
