@@ -3,7 +3,6 @@ var $playlistview = null;
 var id = null;
 var socket = null;
 var socketId = null;
-var locationId = null;
 
 function getId() {
 	// TODO
