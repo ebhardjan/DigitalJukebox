@@ -29,11 +29,8 @@
 }
 
 #content {
-    position: relative;
-    top: 5vw;
-    margin: auto;
+    margin: 3vh auto 0 auto;
     width: 90vw;
-    height: calc(100vh - 10vw);
 }
 
 @media screen and (min-width: 765px) {
