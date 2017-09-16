@@ -12,6 +12,9 @@ module.exports = class Host {
 
 		socket.on('disconnect', this.onDisconnectHost.bind(this));
 		socket.on('setCurrentPlaylistEntry', this.onSetCurrentPlaylistEntry.bind(this));
+        socket.on('to_host', data =>  {
+            console.log("data");
+        });
 	}
 
 	onDisconnectHost() {

@@ -17,8 +17,27 @@ function establishConnection(cb) {
 		socketId = socket.id;
 		socket.on('setPlaylist', onSetPlaylist);
 		socket.on('availableHosts', onAvailableHosts);
+		socket.on('to_guest', updateToGuest);
 		cb();
 	});
+}
+
+function updateToGuest(data) {
+	if (data.type === 'spotify_search_results') {
+		updateSpotifySearchResults(data.payload);
+	}
+}
+
+function updateSpotifySearchResults(results) {
+	console.log(results);
+}
+
+function searchSpotify() {
+    var searchQuery = $('#search_spotify').val();
+    var data = {};
+	data.type = 'spotify_search_query';
+	data.payload = searchQuery;
+	socket.emit('to_host', data);
 }
 
 function findLocation(cb) {
