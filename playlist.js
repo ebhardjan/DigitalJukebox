@@ -39,8 +39,14 @@ class Playlist {
 	 * Return representation with data relevant for guest, i.e. what entries are up next, what they are called,
 	 * how many up-/downvotes they have, ...
 	 */
-	serializeGuest() {
-		return this.list.map(e => ({type: e.type, id: e.id, balance: e.getBalance(), name: e.name}));
+	serializeGuest(guest) {
+		return this.list.map(e => ({
+			type: e.type,
+			id: e.id,
+			balance: e.getBalance(),
+			name: e.name,
+			yourVote: e.upvotes.has(guest.id) ? 'up' : (e.downvotes.has(guest.id) ? 'down' : null)
+		}));
 	}
 }
 

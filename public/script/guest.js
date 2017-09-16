@@ -120,8 +120,10 @@ function onSetPlaylist(data) {
 
 	for (var i = 0; i < data.playlist.length; i++) {
 		(function(entry) {
-			var upvote = $('<div class="upvote"><i class="fa fa-thumbs-up"></i></div>');
-			var downvote = $('<div class="downvote"><i class="fa fa-thumbs-down"></i></div>');
+			var upvoteClass = entry.yourVote === 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up';
+			var downvoteClass = entry.yourVote === 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down';
+			var upvote = $('<div class="upvote"><i class="fa ' + upvoteClass + '"></i></div>');
+			var downvote = $('<div class="downvote"><i class="fa ' + downvoteClass + '"></i></div>');
 			upvote.on('click', function() {
 				pushVote(entry, 'up');
 			});
