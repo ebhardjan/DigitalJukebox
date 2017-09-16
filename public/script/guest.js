@@ -21,13 +21,22 @@ function establishConnection(cb) {
 	});
 }
 
-
 function updateSpotifySearchResults(results) {
-	console.log(results);
+	var $searchResults = $('#search-results');
+	$searchResults.empty();
+	for (var i = 0; i < results.length; i++) {
+		(function(song) {
+			var el = $('<div class="spotify-song">' + song.name + '</div>');
+			el.on('click', function() {
+				pushAddEntry('spotify', song.id, song.name);
+			});
+			$searchResults.append(el);
+		})(results[i]);
+	}
 }
 
 function onSearchSpotify() {
-	var searchQuery = $('#search_spotify').val();
+	var searchQuery = $('#search-spotify-query').val();
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
@@ -43,9 +52,9 @@ function pushToHost(data) {
  */
 function onToGuest(data) {
 	console.log('data from host: ' + JSON.stringify(data));
-	//if (data.type === 'spotify_search_results') {
-	//	updateSpotifySearchResults(data.payload);
-	//}
+	if (data.type === 'spotifySearchResults') {
+		updateSpotifySearchResults(data.payload);
+	}
 }
 
 function findLocation(cb) {
@@ -116,12 +125,14 @@ function onSetPlaylist(data) {
 				pushVote(entry, 'down');
 			});
 
-			var el = $('<div class="playlistentry"></div>');
-			el.append('type: ' + entry.type + '  name: ' + entry.name + ' ');
-			el.append(upvote);
-			el.append(entry.balance >= 0 ? '+' : '-');
-			el.append(entry.balance.toString());
-			el.append(downvote);
+			var el = $('<div class="playlistentry box"/>');
+			el.append('<div>type: ' + entry.type + '  name: ' + entry.name + '</div>');
+			var votingEl = $('<div class="voting"/>')
+			votingEl.append(upvote);
+			votingEl.append(entry.balance >= 0 ? '+' : '');
+			votingEl.append(entry.balance.toString());
+			votingEl.append(downvote);
+			el.append(votingEl);
 
 			$playlist.append(el);
 		})(data.playlist[i]);

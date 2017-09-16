@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Digital Jukebox</title>
     <link rel="stylesheet" href="style/reset.css" />
+    <link rel="stylesheet" href="style/common.css" />
     <link rel="stylesheet" href="style/guest.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -21,12 +22,16 @@
         </div>
         <div id="playlistview">
             <h3>Playlist</h3>
-            <div id="playlist">Loading...</div>
+            <div id="playlist" class="box">Loading...</div>
             <form>
                 <label for="search-spotify-query">Spotify Search</label>
                 <input id="search-spotify-query" type="text" size="100">
                 <input type="button" id="search-spotify">
             </form>
+            <div class="box">
+                <h3>Search Results</h3>
+                <div id="search-results"></div>
+            </div>
         </div>
     </div>
 </body>
