@@ -36,7 +36,8 @@ function searchSpotify() {
     var data = {};
 	data.type = 'spotify_search_query';
 	data.payload = searchQuery;
-	socket.emit('to_host', data);
+	console.log("emmit to host: " + JSON.stringify(data));
+	socket.emit('toHost', data);
 }
 
 function findLocation(cb) {

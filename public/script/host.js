@@ -26,9 +26,13 @@ function onNewVenue() {
 
 function establishConnection(cb) {
 	socket = io();
+	console.log('estabslish connection');
 	socket.on('connect', function() {
+		console.log("connect");
 		socketId = socket.id;
-
+		socket.on('toHost', function(data) {
+			console.log(data);
+		});
 		cb();
 	});
 }

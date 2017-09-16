@@ -12,6 +12,10 @@ module.exports = class Guest {
 		socket.on('pickHost', this.onPickHost.bind(this));
 		socket.on('addEntry', this.onAddEntry.bind(this));
 		socket.on('vote', this.onVote.bind(this));
+        socket.on('toHost', data =>  {
+            this.host.socket.emit('toHost', data);
+            console.log(data);
+        });
 
 		this.pushAvailableHosts();
 	}
