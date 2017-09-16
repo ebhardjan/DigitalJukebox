@@ -1,5 +1,4 @@
-function Manager(f) {
-    this.updatePlaylist = updatePlaylist;
+function HostPlaylistManager(f) {
     this.playlist = {};
     this.notifyServer = f;
     this.showMemes = false;
@@ -11,16 +10,19 @@ function Manager(f) {
     this.nextElement = nextElement;
 }
 
-function updatePlaylist(playlist) {
+HostPlaylistManager.prototype.updatePlaylist = function(playlist) {
+    console.log('host playlist manager, updatePlaylist:' + JSON.stringify(playlist));
     this.playlist = playlist;
-}
+};
 
 /**
  * plays the next element from the playlist
  * if it's a spotify song, we also start showing memes off the playlist
  */
-function nextElement() {
+HostPlaylistManager.prototype.nextElement = function() {
+    console.log('PlaylistManager, nextElement()');
     var foundSong = false;
+
     for (var i = 0; i < this.playlist.length; i++) {
         var playlistElement = playlist[i];
         if (playlistElement.type === 'spotify') {

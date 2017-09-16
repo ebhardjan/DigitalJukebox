@@ -1,12 +1,9 @@
-function MemePlayer() {
-    this.play = play;
-    this.playRandom = playRandom;
-}
+function MemePlayer() {}
 
-function play(playlistElement, callback) {
+MemePlayer.prototype.play = function (playlistElement, callback) {
     //stub method
-}
+};
 
-function playRandom(callback) {
+MemePlayer.prototype.playRandom = function (callback) {
     //stub method
-}
+};

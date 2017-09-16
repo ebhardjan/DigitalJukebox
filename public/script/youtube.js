@@ -1,12 +1,9 @@
-function YoutubePlayer() {
-    this.play = play;
-    this.playRandom = playRandom;
-}
+function YoutubePlayer() {}
 
-function play(playlistElement, callback) {
+YoutubePlayer.prototype.play = function (playlistElement, callback) {
     //stub method
-}
+};
 
-function playRandom(callback) {
+YoutubePlayer.prototype.playRandom = function (callback) {
     //stub method
-}
+};
