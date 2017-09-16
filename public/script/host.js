@@ -79,16 +79,6 @@ function pushToGuest(data) {
     socket.emit('toGuest', data);
 }
 
-$(function () {
-    var $newVenue = $('#new-venue');
-    $setupView = $('#setup-view');
-    $playerView = $('#player-view');
-
-    switchToSetupView();
-
-    $newVenue.on('click', onNewVenue);
-});
-
 function toGuest(data) {
     socket.emit('toGuest', data);
 }
@@ -97,3 +87,26 @@ function setCurrentPlaylistEntry(data) {
     socket.emit('setCurrentPlaylistEntry', data);
 }
 
+function onAddYoutubeUrl() {
+	var url = $('#youtube-url').val();
+	var id = youtubeUrlToId(url);
+	if (!id) {
+		return alert('invalid yotube url!');
+	}
+	pushAddEntry('youtube', id, url);
+}
+
+function youtubeUrlToId(url) {
+	var matches = /.*?v=(.{11}).*/.match(url);
+	return matches[1] || null;
+}
+
+$(function() {
+	$setupView = $('#setup-view');
+	$playerView = $('#player-view');
+
+	switchToSetupView();
+
+	$('#new-venue').on('click', onNewVenue);
+	$('#add-youtube-url').on('click', onAddYoutubeUrl);
+});

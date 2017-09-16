@@ -116,8 +116,8 @@ function onSetPlaylist(data) {
 
 	for (var i = 0; i < data.playlist.length; i++) {
 		(function(entry) {
-			var upvote = $('<div class="upvote">up</div>');
-			var downvote = $('<div class="downvote">down</div>');
+			var upvote = $('<div class="upvote"><i class="fa fa-thumbs-up"></i></div>');
+			var downvote = $('<div class="downvote"><i class="fa fa-thumbs-down"></i></div>');
 			upvote.on('click', function() {
 				pushVote(entry, 'up');
 			});
