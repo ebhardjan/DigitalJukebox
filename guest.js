@@ -18,7 +18,7 @@ module.exports = class Guest {
 
 	onDisconnectGuest() {
 		if (this.host) {
-			this.host.guests.remove(this);
+			this.host.guests.delete(this);
 		}
 	}
 
