@@ -2,7 +2,7 @@ var $setupView = null;
 var $playerView = null;
 var socket = null;
 var socketId = null;
-var playlistManager = new HostPlaylistManager(setCurrentPlaylistEntry);
+var playlistManager = null;
 
 function onNewVenue() {
     var $newVenue = $('#new-venue');
@@ -97,6 +97,9 @@ $(function() {
 	switchToSetupView();
 
 	$('#new-venue').on('click', onNewVenue);
+
+	playlistManager = new HostPlaylistManager(setCurrentPlaylistEntry);
+	playlistManager.youtubePlayer.init();
 
 	checkLoginSetToken();
 	console.log(access_token);

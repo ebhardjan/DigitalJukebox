@@ -26,29 +26,39 @@ YoutubePlayer.prototype.onStateChange = function(event) {
 	}
 };
 
-YoutubePlayer.prototype.play = function (playlistElement, callback) {
-	this.onEndCallback = callback;
-	$('#video-title').html(playlistElement.name);
-
+YoutubePlayer.prototype.init = function() {
 	var iframeScript = $('<script/>');
 	iframeScript.attr('src', "https://www.youtube.com/iframe_api");
-	this.videoContainer.html(iframeScript);
+	playlistManager.youtubePlayer.videoContainer.html(iframeScript);
+};
 
-	// will be called by the yt script when it loads
-	var that = this;
-	window.onYouTubeIframeAPIReady = function() {
-		this.player = new YT.Player('player', {
-			height: '360',
-			width: '640',
-			videoId: playlistElement.id,
-			events: {
-				'onReady': that.onReady.bind(that),
-				'onStateChange': that.onStateChange.bind(that)
-			}
-		});
-	}
+YoutubePlayer.prototype.play = function (playlistElement, callback) {
+	$('#video-title').html(playlistElement.name || playlistElement.id);
+
+	this.player.loadVideoById({
+		videoId: playlistElement.id,
+		startSeconds: 0
+	});
+	this.onEndCallback = callback;
+
+	this.player.playVideo();
 };
 
 YoutubePlayer.prototype.playRandom = function (callback) {
     //stub method
 };
+
+// global YT scripts...
+// will be called by the yt script when it loads
+function onYouTubeIframeAPIReady() {
+	playlistManager.youtubePlayer.player = new YT.Player(playlistManager.youtubePlayer.videoContainer.attr('id'), {
+		height: '360',
+		width: '640',
+		videoId: null,
+		events: {
+			'onReady': playlistManager.youtubePlayer.onReady.bind(playlistManager.youtubePlayer),
+			'onStateChange': playlistManager.youtubePlayer.onStateChange.bind(playlistManager.youtubePlayer)
+		}
+	});
+}
+
