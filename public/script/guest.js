@@ -16,7 +16,7 @@ function establishConnection(cb) {
 	});
 }
 
-function updateSpotifySearchResults(results) {
+function onUpdateSpotifySearchResults(results) {
 	var $searchResults = $('#search-results');
 	$searchResults.empty();
 	for (var i = 0; i < results.length; i++) {
@@ -51,7 +51,7 @@ function pushToHost(data) {
 function onToGuest(data) {
 	console.log('data from host: ' + JSON.stringify(data));
 	if (data.type === 'spotifySearchResults') {
-		updateSpotifySearchResults(data.payload);
+		onUpdateSpotifySearchResults(data.payload);
 	}
 }
 
@@ -137,7 +137,7 @@ function onSetPlaylist(data) {
 			var el = $('<div class="playlistentry"/>');
 			el.append('<div class="playlistentry-left"><div class="entry-type icon-'
 				+ entry.type + '"/><div class="entry-name">' + entry.name + '</div></div>');
-			var votingEl = $('<div class="voting"/>')
+			var votingEl = $('<div class="voting"/>');
 			votingEl.append(downvote);
 			votingEl.append(entry.balance >= 0 ? '+' : '');
 			votingEl.append(entry.balance.toString());

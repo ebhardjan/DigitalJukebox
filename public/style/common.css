@@ -1,9 +1,22 @@
 body {
-    background-color: #424242;
+    /* background-color: #424242; */
+    background-color: #212121;
     color: #F5F5F5;
     font-family: 'Khula', sans-serif;
     font-size: 1.2em;
     max-height: 100vh;
+}
+
+.max-outer {
+    margin-left: auto;
+    width: 90vw;
+    max-width: 700px;
+}
+
+.max-inner {
+    position: relative;
+    padding: 2vh 2vw;
+    border-radius: 6px;
 }
 
 h2 {
@@ -11,6 +24,7 @@ h2 {
 
 h3 {
     margin: 1em 0;
+    text-decoration: underline;
 }
 
 .box {

@@ -11,6 +11,11 @@
     outline: 2px solid black;
 }
 
+.spotify-song {
+    padding: 0.35em;
+    border-radius: 3px;
+}
+
 .playlistentry {
     display: flex;
     justify-content: space-between;
@@ -26,6 +31,14 @@
 
 div.entry-name {
     overflow: hidden;
+}
+
+.header-icon {
+    height: 2em;
+    width: 2em;
+    float: left;
+    margin: 0.2em 1em 0.2em 0.5em;
+    background-size: cover;
 }
 
 .entry-type {
@@ -74,7 +87,7 @@ div.entry-name {
     font-size: 1.5em;
     padding: 8px 5px 5px 8px;
     margin-bottom: 5px;
-    background-color: #212121;
+    background-color: #616161;
     border-radius: 3px;
 }
 
@@ -114,6 +127,8 @@ div.entry-name {
     position: fixed;
     bottom: 2vh;
     z-index: 10;
+    background-color: #424242;
+    border-radius: 5px;
 }
 
 #add-content-box-placeholder {
@@ -124,21 +139,19 @@ div.entry-name {
     position: fixed;
     z-index: 20;
     top: 5vw;
+    background-color: #424242;
+    max-height: 94vh;
+    overflow: scroll;
+    border-radius: 5px;
 }
 
-.max-outer {
-    margin-left: auto;
-    width: 90vw;
-    max-width: 700px;
-}
-
-.max-inner {
-    position: relative;
-    padding: 2vh 2vw;
-    background-color: #212121;
-    border-radius: 6px;
+#search-results-box h3 {
 }
 
 #close-search-results {
     margin: 1em auto;
+    display: block;
+}
+
+#search-results {
 }
