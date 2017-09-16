@@ -16,7 +16,7 @@ function establishConnection(cb) {
 		socketId = socket.id;
 		socket.on('setPlaylist', onSetPlaylist);
 		socket.on('availableHosts', onAvailableHosts);
-		socket.on('to_guest', updateToGuest);
+		socket.on('toGuest', updateToGuest);
 		cb();
 	});
 }

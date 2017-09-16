@@ -56,3 +56,8 @@ $(function() {
 
 	$newVenue.on('click', onNewVenue);
 });
+
+function toGuest(data) {
+	socket.emit('toGuest', data);
+}
+
