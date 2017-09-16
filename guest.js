@@ -74,7 +74,7 @@ module.exports = class Guest {
 	 */
 	pushPlaylist() {
 		if (this.host) {
-			const playlist = this.host.playlist.serializeGuest();
+			const playlist = this.host.playlist.serializeGuest(this);
 			this.socket.emit('setPlaylist', {playlist});
 		}
 	}

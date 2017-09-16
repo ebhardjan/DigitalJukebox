@@ -24,15 +24,17 @@ function updateSpotifySearchResults(results) {
 			var el = $('<div class="spotify-song">' + song.name + '</div>');
 			el.on('click', function() {
 				pushAddEntry('spotify', song.id, song.name);
+				closeSearchResultsBox();
 			});
 			$searchResults.append(el);
 		})(results[i]);
 	}
+	$('#search-results-box').show(300);
 }
 
 function onSearchSpotify(event) {
 	event.preventDefault();
-	var searchQuery = $('#search-spotify-input').val();
+	var searchQuery = $('#search-input').val();
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
@@ -53,6 +55,11 @@ function onToGuest(data) {
 	}
 }
 
+function onBackClick() {
+	switchToVenuesMode();
+	findVenues();
+}
+
 function findLocation(cb) {
 	// TODO
 	locationId = 'defaultlocation';
@@ -66,13 +73,19 @@ function switchToVenuesMode() {
 	$venues.html('Connecting...');
 }
 
+function onCloseSearchResults(event) {
+	closeSearchResultsBox();
+}
+
+function closeSearchResultsBox() {
+	$('#search-results-box').hide(300);
+}
+
 function findVenues() {
 	socket.emit('registerGuest', {id: id, locationId: locationId});
 }
 
 function onAvailableHosts(data) {
-	switchToVenuesMode();
-
 	var $venues = $('#venueslist');
 	$venues.empty();
 	if (data.hosts.length === 0) {
@@ -100,6 +113,7 @@ function switchToPlaylistMode() {
 	$playlistview.show();
 	var $playlist = $('#playlist');
 	$playlist.html('Loading...');
+	$('#search-results-box').hide();
 }
 
 function onSetPlaylist(data) {
@@ -109,8 +123,10 @@ function onSetPlaylist(data) {
 
 	for (var i = 0; i < data.playlist.length; i++) {
 		(function(entry) {
-			var upvote = $('<div class="upvote"><i class="fa fa-thumbs-up"></i></div>');
-			var downvote = $('<div class="downvote"><i class="fa fa-thumbs-down"></i></div>');
+			var upvoteClass = entry.yourVote === 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up';
+			var downvoteClass = entry.yourVote === 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down';
+			var upvote = $('<div class="upvote"><i class="fa ' + upvoteClass + '"></i></div>');
+			var downvote = $('<div class="downvote"><i class="fa ' + downvoteClass + '"></i></div>');
 			upvote.on('click', function() {
 				pushVote(entry, 'up');
 			});
@@ -118,13 +134,14 @@ function onSetPlaylist(data) {
 				pushVote(entry, 'down');
 			});
 
-			var el = $('<div class="playlistentry box"/>');
-			el.append('<div>type: ' + entry.type + '  name: ' + entry.name + '</div>');
+			var el = $('<div class="playlistentry"/>');
+			el.append('<div class="playlistentry-left"><div class="entry-type icon-'
+				+ entry.type + '"/><div class="entry-name">' + entry.name + '</div></div>');
 			var votingEl = $('<div class="voting"/>')
-			votingEl.append(upvote);
+			votingEl.append(downvote);
 			votingEl.append(entry.balance >= 0 ? '+' : '');
 			votingEl.append(entry.balance.toString());
-			votingEl.append(downvote);
+			votingEl.append(upvote);
 			el.append(votingEl);
 
 			$playlist.append(el);
@@ -147,7 +164,7 @@ function pushAddEntry(type, id, name) {
 
 function onAddYoutubeUrl(event) {
 	event.preventDefault();
-	var url = $('#youtube-url-input').val();
+	var url = $('#search-input').val();
 	var id = youtubeUrlToId(url);
 	if (!id) {
 		return alert('invalid youtube url!');
@@ -166,8 +183,11 @@ $(function(){
 
 	switchToVenuesMode();
 
-	$('#search-spotify').on('submit', onSearchSpotify);
-	$('#youtube-url').on('submit', onAddYoutubeUrl);
+	$('#add-content-form').on('submit', onSearchSpotify);
+	$('#search-spotify-submit').on('click', onSearchSpotify);
+	$('#youtube-url-submit').on('click', onAddYoutubeUrl);
+	$('#close-search-results').on('click', onCloseSearchResults);
+	$('#logo-small').on('click', onBackClick);
 
 	findLocation(function() {
 		establishConnection(function() {
