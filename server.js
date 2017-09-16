@@ -27,7 +27,7 @@ io.on('connection', socket => {
 		const locationId = data.locationId;
 		if (!hosts.has(locationId)) hosts.set(locationId, []);
 		hosts.get(locationId).push(new Host(socket, data));
-	};
+	});
 
 	socket.on('registerGuest', data => {
 		const locationId = data.locationId;
