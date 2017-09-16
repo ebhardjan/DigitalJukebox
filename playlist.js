@@ -4,11 +4,19 @@
  * Also keep track of already removed songs so they cannot be added again.
  */
 export class Playlist {
-	constructor() {
+	constructor(host) {
+		this.host = host;
 		this.list = [];
+		this.blacklist = new Set();
 	}
 
-	addEntry(entry) {
+	/**
+	 * Checks if entry has been added and voted out before, if not then add it to playlist.
+	 */
+	addEntry(type, id) {
+		if (this.blacklist.has({type, id})) return;
+
+		const entry = PlaylistEntry(type, id, this);
 		this.list.push(entry);
 	}
 
@@ -17,18 +25,18 @@ export class Playlist {
 	}
 
 	/**
-	 * stringify object with data relevant for host, i.e. what entries to play next.
+	 * Return representation with data relevant for host, i.e. what entries to play next.
 	 */
 	serializeHost() {
-
+		return this.list.map(e => ({type: e.type, id: e.id}));
 	}
 
 	/**
-	 * stringify object with data relevant for guest, i.e. what entries are up next, what they are called,
+	 * Return representation with data relevant for guest, i.e. what entries are up next, what they are called,
 	 * how many up-/downvotes they have, ...
 	 */
 	serializeGuest() {
-
+		return this.list.map(e => ({type: e.type, id: e.id, balance: e.getBalance()}));
 	}
 }
 
@@ -39,11 +47,13 @@ export class Playlist {
  * We can extend this to a 9gag etc. entry and maintain separate playlists later on...
  */
 export class PlaylistEntry {
-	constructor(type, id) {
+	constructor(type, id, playlist) {
 		this.type = type; // 'youtube' or 'spotify'
 		this.id = id; // either video ID or song ID
 		this.upvotes = new Set();
 		this.downvotes = new Set();
+		this.playlist = playlist;
+		// TODO add name?
 	}
 
 	voteUp(guest) {
@@ -51,9 +61,21 @@ export class PlaylistEntry {
 		this.downvotes.delete(guest.id);
 	}
 
+	/**
+	 * If balance is -5, delete from playlist and blacklist.
+	 */
 	voteDown(guest) {
 		this.downvotes.add(guest.id);
 		this.upvotes.delete(guest.id);
+
+		if (this.getBalance() <= -5) {
+			this.playlist.blacklist.add({type: this.type, id: this.id});
+			const idx = this.playlist.list.indexOf(this);
+			if(idx >= 0) {
+				this.playlist.list.splice(idx, 1);
+			}
+			this.playlist.host.pushPlaylistToAll();
+		}
 	}
 
 	getBalance() {

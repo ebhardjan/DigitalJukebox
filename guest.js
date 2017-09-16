@@ -48,7 +48,7 @@ export default class Guest {
 			default:
 				return console.log(`guest: onVote with invalid vote direction ${data.dir}!`);
 		}
-		this.host.pushPlaylistToAllGuests();
+		this.host.pushPlaylistToGuests();
 	}
 
 	onAddEntry(data) {
@@ -59,6 +59,9 @@ export default class Guest {
 	 * send up-to-date playlist to this guest.
 	 */
 	pushPlaylist() {
-		// TODO
+		if (this.host) {
+			const playlist = this.host.playlist.serializeGuest();
+			this.socket.emit('setPlaylist', {playlist});
+		}
 	}
 }

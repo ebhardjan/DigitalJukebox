@@ -36,6 +36,7 @@ io.on('connection', socket => {
 		if (!guests.has(locationId)) guests.set(locationId, []);
 		guests.get(locationId).push(new Guest(socket, data, availableHosts));
 	});
+
 	socket.on('disconnect', () => connections.delete(socket.id));
 });
 

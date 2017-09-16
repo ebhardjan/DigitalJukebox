@@ -7,7 +7,7 @@ export default class Host {
 	constructor(socket, data) {
 		this.socket = socket;
 		this.connectionId = socket.id;
-		this.playlist = new Playlist();
+		this.playlist = new Playlist(this);
 		this.guests = new Set();
 
 		socket.on('disconnect', this.onDisconnectHost.bind(this));
@@ -20,25 +20,36 @@ export default class Host {
 	}
 
 	/**
-	 * called, when the next song/video plays on the host.
+	 * Called, when the next song/video plays on the host.
 	 */
 	onSetCurrentPlaylistEntry(data) {
-
+		// drop all playlist entries before the current one.
+		for (let i = 0; i < this.playlist.list.length; i++) {
+			const entry = this.playlist.list[i];
+			if (entry.type === data.type && entry.id === data.id) {
+				this.playlist.list = this.playlist.list.slice(i);
+				break;
+			}
+		}
+		this.pushPlaylistToGuests();
+		// TODO is there a race condition here?
 	}
 
 	/**
-	 * send up-to-date playlist to this host.
+	 * Send up-to-date playlist to this host.
 	 */
 	pushPlaylist() {
-		// TODO
+		const playlist = this.playlist.serializeHost();
+		this.socket.emit('setPlaylist', {playlist});
 	}
 
-	/**
-	 * send up-to-date playlist to all guests.
-	 * call this on votes or next song played.
-	 */
-	pushPlaylistToAllGuests() {
+	pushPlaylistToGuests() {
 		this.guests.forEach(guest => guest.pushPlaylist());
+	}
+
+	pushPlaylistToAll() {
+		this.pushPlaylist();
+		this.pushPlaylistToGuests();
 	}
 
 }
