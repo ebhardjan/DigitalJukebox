@@ -24,6 +24,7 @@ function updateSpotifySearchResults(results) {
 			var el = $('<div class="spotify-song">' + song.name + '</div>');
 			el.on('click', function() {
 				pushAddEntry('spotify', song.id, song.name);
+				closeSearchResultsBox();
 			});
 			$searchResults.append(el);
 		})(results[i]);
@@ -68,6 +69,10 @@ function switchToVenuesMode() {
 }
 
 function onCloseSearchResults(event) {
+	closeSearchResultsBox();
+}
+
+function closeSearchResultsBox() {
 	$('#search-results-box').hide(300);
 }
 
@@ -125,12 +130,13 @@ function onSetPlaylist(data) {
 			});
 
 			var el = $('<div class="playlistentry"/>');
-			el.append('<div class="playlistentry-left"><div class="entry-type icon-' + entry.type + '"/><div class="entry-name">' + entry.name + '</div></div>');
+			el.append('<div class="playlistentry-left"><div class="entry-type icon-'
+				+ entry.type + '"/><div class="entry-name">' + entry.name + '</div></div>');
 			var votingEl = $('<div class="voting"/>')
-			votingEl.append(upvote);
+			votingEl.append(downvote);
 			votingEl.append(entry.balance >= 0 ? '+' : '');
 			votingEl.append(entry.balance.toString());
-			votingEl.append(downvote);
+			votingEl.append(upvote);
 			el.append(votingEl);
 
 			$playlist.append(el);
