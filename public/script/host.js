@@ -82,6 +82,7 @@ function toGuest(data) {
 
 function setCurrentPlaylistEntry(data) {
     socket.emit('setCurrentPlaylistEntry', data);
+    console.log('emitting set current playlist entry');
 }
 
 function onSetPlaylist(data) {
