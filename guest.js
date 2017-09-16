@@ -71,7 +71,7 @@ module.exports = class Guest {
 	}
 
 	pushAvailableHosts() {
-		const hosts = this.availableHosts.map(h => ({name: h.name, id: h.id}));
+		const hosts = this.availableHosts.map(h => ({name: h.name}));
 		this.socket.emit('availableHosts', {hosts});
 	}
 };

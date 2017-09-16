@@ -44,7 +44,7 @@ io.on('connection', socket => {
 		winston.debug(`register host`, data);
 		const locationId = data.locationId;
 		if (!hosts.has(locationId)) hosts.set(locationId, []);
-		hosts.get(locationId).push(new Host(socket, data));
+		hosts.get(locationId).push(new Host(socket, data, hosts));
 	});
 
 	socket.on('registerGuest', data => {
