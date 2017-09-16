@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logged In</title>
+</head>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="script/host.js"></script>
+<body>
+<script>
+    checkLoginSetToken();
+    console.log(access_token);
+    updateCurrentlyPlaying();
+</script>
+
+<ul>
+    <li>
+        Current Song: <span id="current_song"></span> - <span id="current_artist"></span>
+    </li>
+    <li>
+        Progress: <span id="progress"></span> / <span id="total_length"></span>
+    </li>
+    <li>
+        Remaining: <span id="remaining"></span>
+    </li>
+</ul>
+
+<form >
+    <label>Next song</label>
+    <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
+    <input type="button" value="Go" onclick="setNextTrack()">
+</form>
+
+</body>
+</html>
