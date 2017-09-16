@@ -3,9 +3,12 @@ function Manager(f) {
     this.playlist = {};
     this.notifyServer = f;
     this.showMemes = false;
-    this.spotifyPlayer = spotifyPlayer;
-    this.youtubePlayer = youtubePlayer;
-    this.memePlayer = memePlayer;
+    this.spotifyPlayer = new SpotifyPlayer();
+    this.youtubePlayer = new YoutubePlayer();
+    this.memePlayer = new MemePlayer();
+
+    // export functions
+    this.nextElement = nextElement;
 }
 
 function updatePlaylist(playlist) {
@@ -21,20 +24,20 @@ function nextElement() {
     for (var i = 0; i < this.playlist.length; i++) {
         var playlistElement = playlist[i];
         if (playlistElement.type === 'spotify') {
-            spotifyPlayer.play(playlistElement, nextElement);
+            this.spotifyPlayer.play(playlistElement, nextElement);
             this.showMemes = true;
             this.nextMeme();
             this.notifyServer(playlistElement);
             foundSong = true;
         } else if (playlistelement.type === 'youtube') {
-            youtubePlayer.play(playlistElement, nextElement);
+            this.youtubePlayer.play(playlistElement, nextElement);
             this.showMemes = false;
             this.notifyServer(playlistElement);
             foundSong = true;
         }
     }
     if (!foundSong) {
-        spotifyPlayer.playRandom(nextElement);
+        this.spotifyPlayer.playRandom(nextElement);
     }
 }
 
@@ -50,12 +53,12 @@ function nextMeme() {
     for (var i = 0; i < this.playlist.length; i++) {
         var playlistElement = playlist[i];
         if (playlistElement.type === '9gag') {
-            memePlayer.play(playlistElement, nextMeme());
+            this.memePlayer.play(playlistElement, nextMeme());
             this.notifyServer(playlistElement);
             foundMeme = true;
         }
     }
     if (!foundMeme) {
-        memePlayer.playRandomMeme(nextMeme());
+        this.memePlayer.playRandomMeme(nextMeme());
     }
 }

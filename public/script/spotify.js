@@ -16,7 +16,8 @@ function play(playlistElement, callback) {
 }
 
 function playRandom(callback) {
-    setTrackTo(spotify:track:3ZOEytgrvLwQaqXreDs2Jx)
+    var playlistElement = {'id': 'spotify:track:3ZOEytgrvLwQaqXreDs2Jx'};
+    this.play(playlistElement, callback);
 }
 
 /*
