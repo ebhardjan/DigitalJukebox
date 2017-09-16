@@ -3,8 +3,10 @@ var $playerView = null;
 var socket = null;
 var socketId = null;
 var playlistManager = null;
+var id = null;
 
-function onNewVenue() {
+function onNewVenue(event) {
+    event.preventDefault();
     var $newVenue = $('#new-venue');
     var $venueName = $('#venue-name');
     var name = $venueName.val();
@@ -12,14 +14,14 @@ function onNewVenue() {
         alert('Please enter a name for the venue.');
         return;
     }
+    id = getId();
 
     $newVenue.hide();
     $newVenue.after('Loading...');
 
-
     findLocation(function () {
         establishConnection(function () {
-            socket.emit('registerHost', {name: name, locationId: locationId});
+            socket.emit('registerHost', {id: id, name: name, locationId: locationId});
             switchToPlayerView();
         });
     });
@@ -96,7 +98,7 @@ $(function() {
 
 	switchToSetupView();
 
-	$('#new-venue').on('click', onNewVenue);
+	$('#new-venue').on('submit', onNewVenue);
 
 	playlistManager = new HostPlaylistManager(setCurrentPlaylistEntry);
 	playlistManager.youtubePlayer.init();

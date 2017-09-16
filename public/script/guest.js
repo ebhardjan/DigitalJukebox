@@ -4,11 +4,6 @@ var id = null;
 var socket = null;
 var socketId = null;
 
-function getId() {
-	// TODO
-	return Math.random().toString();
-}
-
 function establishConnection(cb) {
 	id = getId();
 	socket = io();
@@ -69,12 +64,6 @@ function switchToVenuesMode() {
 	$venuesview.show();
 	var $venues = $('#venueslist');
 	$venues.html('Connecting...');
-
-	findLocation(function() {
-		establishConnection(function() {
-			findVenues();
-		});
-	});
 }
 
 function findVenues() {
@@ -82,6 +71,8 @@ function findVenues() {
 }
 
 function onAvailableHosts(data) {
+	switchToVenuesMode();
+
 	var $venues = $('#venueslist');
 	$venues.empty();
 	if (data.hosts.length === 0) {
@@ -93,6 +84,7 @@ function onAvailableHosts(data) {
 			el.on('click', function() {
 				switchToPlaylistMode();
 				pushPickHost(host.id);
+				$('#playlistname').html('Playlist at ' + host.name);
 			});
 			$venues.append(el);
 		})(data.hosts[i]);
@@ -100,7 +92,7 @@ function onAvailableHosts(data) {
 }
 
 function pushPickHost(id) {
-	socket.emit('pickHost', {host: id});
+	socket.emit('pickHost', {hostId: id});
 }
 
 function switchToPlaylistMode() {
@@ -171,4 +163,10 @@ $(function(){
 
 	$('#search-spotify').on('submit', onSearchSpotify);
 	$('#youtube-url').on('submit', onAddYoutubeUrl);
+
+	findLocation(function() {
+		establishConnection(function() {
+			findVenues();
+		});
+	});
 });
