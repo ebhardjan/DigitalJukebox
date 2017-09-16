@@ -15,6 +15,7 @@ module.exports = class Host {
 
 		socket.on('disconnect', this.onDisconnectHost.bind(this));
 		socket.on('setCurrentPlaylistEntry', this.onSetCurrentPlaylistEntry.bind(this));
+		socket.on('toGuest', this.onToGuest.bind(this));
 	}
 
 	onDisconnectHost() {
@@ -67,6 +68,24 @@ module.exports = class Host {
 	 */
 	pushToHost(data) {
 		this.socket.emit('toHost', data);
+	}
+
+	/**
+	 * forward to a guest
+	 */
+	onToGuest(data) {
+		winston.debug(`host: tunnel to guest`, data);
+		// find guest
+		let guest = null;
+		for (let g of this.guests) {
+			if (g.id === data.guestId) {
+				guest = g; break;
+			}
+		}
+		if (!guest) {
+			return winston.error(`no guest with id ${data.guestId} found to foward data!`, data);
+		}
+		guest.pushToGuest(data);
 	}
 };
 

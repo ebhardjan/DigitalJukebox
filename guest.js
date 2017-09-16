@@ -63,7 +63,7 @@ module.exports = class Guest {
 	onToHost(data) {
 		winston.debug(`guest: tunnel to host`, data);
 		if (this.host) {
-			this.host.pushToHost(data);
+			this.host.pushToHost({...data, guestId: this.id});
 		} else {
 			winston.error(`guest: no host set!`);
 		}
@@ -82,5 +82,12 @@ module.exports = class Guest {
 	pushAvailableHosts() {
 		const hosts = this.availableHosts.map(h => ({name: h.name}));
 		this.socket.emit('availableHosts', {hosts});
+	}
+
+	/**
+	 * forward to guest
+	 */
+	pushToGuest(data) {
+		this.socket.emit('toGuest', data);
 	}
 };

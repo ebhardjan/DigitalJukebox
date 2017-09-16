@@ -50,6 +50,12 @@ function switchToPlayerView() {
  */
 function onToHost(data) {
 	console.log('forwarded from guest ' + JSON.stringify(data));
+	// dummy answer to test out reverse tunnel
+	pushToGuest({guestId: data.guestId, songList: ['a', 'b', 'c']});
+}
+
+function pushToGuest(data) {
+	socket.emit('toGuest', data);
 }
 
 $(function() {

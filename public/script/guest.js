@@ -5,8 +5,7 @@ var socket = null;
 var socketId = null;
 
 function getId() {
-	// TODO
-	return 'defaultid';
+	return Math.random().toString();
 }
 
 function establishConnection(cb) {
@@ -16,16 +15,11 @@ function establishConnection(cb) {
 		socketId = socket.id;
 		socket.on('setPlaylist', onSetPlaylist);
 		socket.on('availableHosts', onAvailableHosts);
-		socket.on('toGuest', updateToGuest);
+		socket.on('toGuest', onToGuest);
 		cb();
 	});
 }
 
-function updateToGuest(data) {
-	if (data.type === 'spotify_search_results') {
-		updateSpotifySearchResults(data.payload);
-	}
-}
 
 function updateSpotifySearchResults(results) {
 	console.log(results);
@@ -36,8 +30,21 @@ function onSearchSpotify() {
 	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
 }
 
+/**
+ * forward to host
+ */
 function pushToHost(data) {
 	socket.emit('toHost', data);
+}
+
+/**
+ * forwarded from host
+ */
+function onToGuest(data) {
+	console.log('data from host: ' + JSON.stringify(data));
+	//if (data.type === 'spotify_search_results') {
+	//	updateSpotifySearchResults(data.payload);
+	//}
 }
 
 function findLocation(cb) {
