@@ -6,7 +6,8 @@ function YoutubePlayer() {
 }
 
 YoutubePlayer.prototype.onReady = function(event) {
-	event.target.playVideo();
+    event.target.setVolume(100);
+    event.target.playVideo();
 };
 
 YoutubePlayer.prototype.onStateChange = function(event) {
@@ -16,8 +17,10 @@ YoutubePlayer.prototype.onStateChange = function(event) {
 		this.videoEndsTimeout = setTimeout(function() {
 			that.player.stopVideo();
 			that.videoContainer.html();
-			if (typeof that.onEndCallback === 'function') that.onEndCallback();
-		}, timeLeft - 0.5);
+			if (typeof that.onEndCallback === 'function'){
+			     that.onEndCallback();
+			}
+		}, timeLeft * 1000 - 0.5 * 1000);
 	} else {
 		if(this.videoEndsTimeout) {
 			clearTimeout(this.videoEndsTimeout);

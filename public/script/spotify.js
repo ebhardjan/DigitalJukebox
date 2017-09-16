@@ -27,6 +27,12 @@ SpotifyPlayer.prototype.playRandom = function (callback) {
     this.play(playlistElement, callback);
 };
 
+SpotifyPlayer.prototype.stop = function (callback) {
+    doPut('me/player/pause', {}, function () {
+        callback();
+    });
+};
+
 /*
  Ajax Get and Put methods util methods
  */
