@@ -11,10 +11,12 @@ export class Playlist {
 	}
 
 	/**
-	 * Checks if entry has been added and voted out before, if not then add it to playlist.
+	 * Add entry to playlist.
+	 * Not valid if already in playist, or if the entry has been voted out before.
 	 */
 	addEntry(type, id, name) {
 		if (this.blacklist.has({type, id})) return;
+		if (this.list.find(e => e.type === type && e.id === id)) return;
 
 		const entry = PlaylistEntry(type, id, name, this);
 		this.list.push(entry);
