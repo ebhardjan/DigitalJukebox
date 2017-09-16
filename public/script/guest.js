@@ -125,12 +125,14 @@ function onSetPlaylist(data) {
 				pushVote(entry, 'down');
 			});
 
-			var el = $('<div class="playlistentry"></div>');
-			el.append('type: ' + entry.type + '  name: ' + entry.name + ' ');
-			el.append(upvote);
-			el.append(entry.balance >= 0 ? '+' : '-');
-			el.append(entry.balance.toString());
-			el.append(downvote);
+			var el = $('<div class="playlistentry box"/>');
+			el.append('<div>type: ' + entry.type + '  name: ' + entry.name + '</div>');
+			var votingEl = $('<div class="voting"/>')
+			votingEl.append(upvote);
+			votingEl.append(entry.balance >= 0 ? '+' : '');
+			votingEl.append(entry.balance.toString());
+			votingEl.append(downvote);
+			el.append(votingEl);
 
 			$playlist.append(el);
 		})(data.playlist[i]);

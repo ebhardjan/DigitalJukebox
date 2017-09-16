@@ -14,3 +14,18 @@
 #venuesnearby {
     outline: 2px solid black;
 }
+
+.playlistentry {
+    display: flex;
+    justify-content: space-between;
+}
+
+.voting {
+    display: flex;
+    justify-content: center;
+}
+
+.voting > div {
+    margin-left: 5px;
+    margin-right: 5px;
+}
