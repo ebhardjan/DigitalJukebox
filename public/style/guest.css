@@ -86,14 +86,32 @@
 #add-content-box {
     position: fixed;
     bottom: 2vh;
-    left: 3vw;
-    width: 90vw;
-    padding: 2vh 2vw;
     z-index: 10;
-    background-color: #212121;
-    border-radius: 6px;
 }
 
 #add-content-box-placeholder {
     height: 7em;
+}
+
+#search-results-box {
+    position: fixed;
+    z-index: 20;
+    top: 5vw;
+}
+
+.max-outer {
+    margin-left: auto;
+    width: 90vw;
+    max-width: 700px;
+}
+
+.max-inner {
+    position: relative;
+    padding: 2vh 2vw;
+    background-color: #212121;
+    border-radius: 6px;
+}
+
+#close-search-results {
+    margin: 1em auto;
 }

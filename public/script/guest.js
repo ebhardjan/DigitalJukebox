@@ -28,6 +28,7 @@ function updateSpotifySearchResults(results) {
 			$searchResults.append(el);
 		})(results[i]);
 	}
+	$('#search-results-box').show(300);
 }
 
 function onSearchSpotify(event) {
@@ -66,6 +67,10 @@ function switchToVenuesMode() {
 	$venues.html('Connecting...');
 }
 
+function onCloseSearchResults(event) {
+	$('#search-results-box').hide(300);
+}
+
 function findVenues() {
 	socket.emit('registerGuest', {id: id, locationId: locationId});
 }
@@ -100,6 +105,7 @@ function switchToPlaylistMode() {
 	$playlistview.show();
 	var $playlist = $('#playlist');
 	$playlist.html('Loading...');
+	$('#search-results-box').hide();
 }
 
 function onSetPlaylist(data) {
@@ -169,6 +175,7 @@ $(function(){
 	$('#add-content-form').on('submit', onSearchSpotify);
 	$('#search-spotify-submit').on('click', onSearchSpotify);
 	$('#youtube-url-submit').on('click', onAddYoutubeUrl);
+	$('#close-search-results').on('click', onCloseSearchResults);
 
 	findLocation(function() {
 		establishConnection(function() {
