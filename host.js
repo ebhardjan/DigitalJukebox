@@ -9,6 +9,7 @@ module.exports = class Host {
 		this.connectionId = socket.id;
 		this.playlist = new Playlist(this);
 		this.guests = new Set();
+		this.name = data.name;
 
 		socket.on('disconnect', this.onDisconnectHost.bind(this));
 		socket.on('setCurrentPlaylistEntry', this.onSetCurrentPlaylistEntry.bind(this));

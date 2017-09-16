@@ -19,7 +19,7 @@ class Playlist {
 		if (this.blacklist.has({type, id})) return;
 		if (this.list.find(e => e.type === type && e.id === id)) return;
 
-		const entry = PlaylistEntry(type, id, name, this);
+		const entry = new PlaylistEntry(type, id, name, this);
 		this.list.push(entry);
 		this.host.pushPlaylistToAll();
 	}
