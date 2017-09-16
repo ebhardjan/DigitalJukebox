@@ -14,10 +14,41 @@
 .playlistentry {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 2em;
+}
+
+.playlistentry-left {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+div.entry-name {
+    overflow: hidden;
+}
+
+.entry-type {
+    flex-shrink: 0;
+    height: 1.4em;
+    width: 1.4em;
+    float: left;
+    margin-right: 0.4em;
+    background-size: cover;
+}
+
+.icon-spotify {
+    background-image: url('../img/spotify.png');
+}
+
+.icon-youtube {
+    background-image: url('../img/youtube.png');
 }
 
 .voting {
     flex-basis: 75px;
+    flex-shrink: 0;
+    flex-grow: 0;
     display: flex;
     justify-content: space-between;
     margin-right: 5px;
@@ -49,10 +80,6 @@
 
 .venue:hover {
     background-color: #616161;
-}
-
-.playlistentry {
-    background-color: #212121;
 }
 
 #new {

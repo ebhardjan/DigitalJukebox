@@ -124,8 +124,8 @@ function onSetPlaylist(data) {
 				pushVote(entry, 'down');
 			});
 
-			var el = $('<div class="playlistentry box"/>');
-			el.append('<div>type: ' + entry.type + '  name: ' + entry.name + '</div>');
+			var el = $('<div class="playlistentry"/>');
+			el.append('<div class="playlistentry-left"><div class="entry-type icon-' + entry.type + '"/><div class="entry-name">' + entry.name + '</div></div>');
 			var votingEl = $('<div class="voting"/>')
 			votingEl.append(upvote);
 			votingEl.append(entry.balance >= 0 ? '+' : '');
