@@ -1,0 +1,16 @@
+#venueselection {
+
+}
+
+#editplaylist {
+    display: none;
+}
+
+#venueselection, #editplaylist {
+    width: 100%;
+    height: 100%;
+}
+
+#venuesnearby {
+    outline: 2px solid black;
+}
