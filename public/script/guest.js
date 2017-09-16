@@ -131,5 +131,6 @@ function pushAddEntry(type, id, name) {
 $(function(){
 	$venuesview = $('#venuesview');
 	$playlistview = $('#playlistview');
+	$('#search-spotify').on('click', searchSpotify);
 	switchToVenuesMode();
 });
