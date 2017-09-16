@@ -6,7 +6,7 @@ var socketId = null;
 
 function getId() {
 	// TODO
-	return 'defaultid';
+	return Math.random().toString();
 }
 
 function establishConnection(cb) {
@@ -73,8 +73,8 @@ function onSetPlaylist(data) {
 
 	for (var i = 0; i < data.playlist.length; i++) {
 		(function(entry) {
-			var upvote = $('<div class="upvote"/>');
-			var downvote = $('<div class="downvote"/>');
+			var upvote = $('<div class="upvote">up</div>');
+			var downvote = $('<div class="downvote">down</div>');
 			upvote.on('click', function() {
 				pushVote(entry, 'up');
 			});
@@ -105,5 +105,8 @@ function pushAddEntry(type, id, name) {
 $(function(){
 	$venuesview = $('#venuesview');
 	$playlistview = $('#playlistview');
+	$('#next-song').on('click', function () {
+		pushAddEntry('spotify', $('#song-id').val(), 'some song');
+	});
 	switchToVenuesMode();
 });
