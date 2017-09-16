@@ -1,6 +1,32 @@
 let access_token;
 let refresh_token;
 
+function SpotifyPlayer() {
+    this.timeout = undefined;
+}
+
+SpotifyPlayer.prototype.play = function (playlistElement, callback) {
+    if (this.timeout !== undefined) {
+        this.timeout.cancel();
+        console.log("timeout cancelled");
+    }
+    setTrackTo(playlistElement.id, function() {
+        window.setTimeout(function() {
+            getRemainingTime(function (remaining_time) {
+                console.log(remaining_time * 1000);
+                this.timeout = window.setTimeout(function f() {
+                    console.log("next element callback");
+                    callback();
+                }, remaining_time * 1000 + 1000);
+            }.bind(this));
+        }, 1000)}.bind(this));
+};
+
+SpotifyPlayer.prototype.playRandom = function (callback) {
+    var playlistElement = {'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'};
+    this.play(playlistElement, callback);
+};
+
 /*
  Ajax Get and Put methods util methods
  */
@@ -37,7 +63,7 @@ function doPut(endpoint, payload, callback) {
 //TODO: untested...
 function refreshAccessToken() {
     $.ajax({
-        url: '/refresh_token#refresh_token='+refresh_token,
+        url: '/refresh_token#refresh_token=' + refresh_token,
         success: function (response) {
             alert("successfully refreshed token?");
             console.log(response);
@@ -116,24 +142,25 @@ function getRemainingTime(callback) {
     });
 }
 
+//probably not used...
 function setNextTrack() {
     const song_id = $('#next_song_id').val();
     getRemainingTime(function (remaining_time) {
         console.log(remaining_time * 1000);
         window.setTimeout(function f() {
-            setTrackTo(song_id)
+            setTrackTo(song_id, updateCurrentlyPlaying)
         }, remaining_time * 1000);
     });
 }
 
-function setTrackTo(songID) {
+function setTrackTo(songID, callback) {
     const payload = {'uris': [songID]};
     console.log(payload);
     doPut('me/player/play', payload, function (data) {
-        updateCurrentlyPlaying();
+        callback(data);
     });
 }
 
 function searchSpotify(query, cb) {
-    doGet('search?q='+query+'&type=track', cb);
+    doGet('search?q=' + query + '&type=track', cb);
 }
