@@ -36,8 +36,9 @@ HostPlaylistManager.prototype.nextElement = function() {
             this.notifyServer(playlistElement);
             foundSong = true;
             return;
-        } else if (playlistelement.type === 'youtube') {
+        } else if (playlistElement.type === 'youtube') {
             this.youtubePlayer.play(playlistElement, this.nextElement.bind(this));
+            this.spotifyPlayer.stop(function(){});
             this.showMemes = false;
             this.notifyServer(playlistElement);
             foundSong = true;

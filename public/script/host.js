@@ -2,9 +2,11 @@ var $setupView = null;
 var $playerView = null;
 var socket = null;
 var socketId = null;
-var playlistManager = new HostPlaylistManager(setCurrentPlaylistEntry);
+var playlistManager = null;
+var id = null;
 
-function onNewVenue() {
+function onNewVenue(event) {
+    event.preventDefault();
     var $newVenue = $('#new-venue');
     var $venueName = $('#venue-name');
     var name = $venueName.val();
@@ -12,14 +14,14 @@ function onNewVenue() {
         alert('Please enter a name for the venue.');
         return;
     }
+    id = getId();
 
     $newVenue.hide();
     $newVenue.after('Loading...');
 
-
     findLocation(function () {
         establishConnection(function () {
-            socket.emit('registerHost', {name: name, locationId: locationId});
+            socket.emit('registerHost', {id: id, name: name, locationId: locationId});
             switchToPlayerView();
         });
     });
@@ -32,10 +34,7 @@ function establishConnection(cb) {
         console.log("connect");
         socketId = socket.id;
         socket.on('toHost', onToHost);
-        socket.on('setPlaylist', function (data) {
-            console.log('incoming playlist update');
-            playlistManager.updatePlaylist(data);
-        });
+        socket.on('setPlaylist', onSetPlaylist);
         cb();
     });
 }
@@ -79,16 +78,6 @@ function pushToGuest(data) {
     socket.emit('toGuest', data);
 }
 
-$(function () {
-    var $newVenue = $('#new-venue');
-    $setupView = $('#setup-view');
-    $playerView = $('#player-view');
-
-    switchToSetupView();
-
-    $newVenue.on('click', onNewVenue);
-});
-
 function toGuest(data) {
     socket.emit('toGuest', data);
 }
@@ -98,3 +87,24 @@ function setCurrentPlaylistEntry(data) {
     console.log('emitting set current playlist entry');
 }
 
+function onSetPlaylist(data) {
+	console.log('incoming playlist update');
+	playlistManager.updatePlaylist(data);
+}
+
+$(function() {
+	$setupView = $('#setup-view');
+	$playerView = $('#player-view');
+
+	switchToSetupView();
+
+	$('#new-venue').on('submit', onNewVenue);
+
+	playlistManager = new HostPlaylistManager(setCurrentPlaylistEntry);
+	playlistManager.youtubePlayer.init();
+
+	checkLoginSetToken();
+	console.log(access_token);
+	updateCurrentlyPlaying();
+	console.log('playManager:' + JSON.stringify(playlistManager));
+});

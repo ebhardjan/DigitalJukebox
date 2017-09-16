@@ -21,8 +21,10 @@
 }
 
 .voting {
+    flex-basis: 75px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    margin-right: 5px;
 }
 
 .voting > div {

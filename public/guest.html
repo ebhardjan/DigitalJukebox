@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style/reset.css" />
     <link rel="stylesheet" href="style/common.css" />
     <link rel="stylesheet" href="style/guest.css" />
+    <link rel="stylesheet" href="style/font-awesome.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -21,17 +22,21 @@
             <div id="venueslist">Connecting...</div>
         </div>
         <div id="playlistview">
-            <h3>Playlist</h3>
+            <h3 id="playlistname">Playlist</h3>
             <div id="playlist" class="box">Loading...</div>
-            <form>
-                <label for="search-spotify-query">Spotify Search</label>
-                <input id="search-spotify-query" type="text" size="100">
-                <input type="button" id="search-spotify">
+            <form id="search-spotify">
+                <label for="search-spotify-input">Spotify Search</label>
+                <input id="search-spotify-input" type="text" size="100">
+                <input type="submit" id="search-spotify-submit">
             </form>
             <div class="box">
                 <h3>Search Results</h3>
                 <div id="search-results"></div>
             </div>
+            <form id="youtube-url">
+                <label for="youtube-url-input">Youtube Url: </label><input id="youtube-url-input" type="text" size="100"/>
+                <input type="submit" id="youtube-url-submit">
+            </form>
         </div>
     </div>
 </body>

@@ -5,6 +5,7 @@ const {Playlist, PlaylistEntry} = require('./playlist');
 module.exports = class Host {
 
 	constructor(socket, data, hostLocations) {
+		this.id = data.id;
 		this.socket = socket;
 		this.connectionId = socket.id;
 		this.playlist = new Playlist(this);
