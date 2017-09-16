@@ -1,6 +1,24 @@
 let access_token;
 let refresh_token;
 
+function SpotifyPlayer() {
+    this.play = play;
+    this.playRandom = playRandom;
+}
+
+function play(playlistElement, callback) {
+    setTrackTo(playlistElement.id, function(data) {
+        console.log(remaining_time * 1000);
+        window.setTimeout(function f() {
+            callback();
+        }, remaining_time * 1000);
+    });
+}
+
+function playRandom(callback) {
+    setTrackTo(spotify:track:3ZOEytgrvLwQaqXreDs2Jx)
+}
+
 /*
  Ajax Get and Put methods util methods
  */
@@ -116,21 +134,22 @@ function getRemainingTime(callback) {
     });
 }
 
+//probably not used...
 function setNextTrack() {
     const song_id = $('#next_song_id').val();
     getRemainingTime(function (remaining_time) {
         console.log(remaining_time * 1000);
         window.setTimeout(function f() {
-            setTrackTo(song_id)
+            setTrackTo(song_id, updateCurrentlyPlaying)
         }, remaining_time * 1000);
     });
 }
 
-function setTrackTo(songID) {
+function setTrackTo(songID, callback) {
     const payload = {'uris': [songID]};
     console.log(payload);
     doPut('me/player/play', payload, function (data) {
-        updateCurrentlyPlaying();
+        callback(data);
     });
 }
 

@@ -2,6 +2,7 @@ var $setupView = null;
 var $playerView = null;
 var socket = null;
 var socketId = null;
+var manager = Manager(setCurrentPlaylistEntry);
 
 function onNewVenue() {
 	var $newVenue = $('#new-venue');
@@ -31,6 +32,7 @@ function establishConnection(cb) {
 		console.log("connect");
 		socketId = socket.id;
 		socket.on('toHost', onToHost);
+		socket.on('setPlaylist', manager.updatePlaylist);
 		cb();
 	});
 }
@@ -70,5 +72,9 @@ $(function() {
 
 function toGuest(data) {
 	socket.emit('toGuest', data);
+}
+
+function setCurrentPlaylistEntry(data) {
+	socket.emit('setCurrentPlaylistEntry', data);
 }
 
