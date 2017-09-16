@@ -10,7 +10,9 @@
     "node": ">=0.12.x"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "express": "^4.12.3",
+    "request": "^2.81.0",
     "socket.io": "^1.0.0",
     "winston": "^2.3.1"
   },
