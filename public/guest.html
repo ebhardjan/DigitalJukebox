@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Digital Jukebox</title>
     <link rel="stylesheet" href="style/reset.css" />
     <link rel="stylesheet" href="style/common.css" />
     <link rel="stylesheet" href="style/guest.css" />
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Khula" rel="stylesheet">
     <link rel="stylesheet" href="style/font-awesome.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -16,28 +19,39 @@
 </head>
 <body>
     <div id="content">
-        <h2>Digital Jukebox</h2>
         <div id="venuesview">
-            <h3>Venues Nearby</h3>
+            <h1 id="logo-big">DJ</h1>
+            <h3>Choose a venue below</h3>
             <div id="venueslist">Connecting...</div>
         </div>
         <div id="playlistview">
-            <h3 id="playlistname">Playlist</h3>
-            <div id="playlist" class="box">Loading...</div>
-            <form id="search-spotify">
-                <label for="search-spotify-input">Spotify Search</label>
-                <input id="search-spotify-input" type="text" size="100">
-                <input type="submit" id="search-spotify-submit">
-            </form>
-            <div class="box">
-                <h3>Search Results</h3>
-                <div id="search-results"></div>
+            <div class="header-small">
+                <div id="logo-small">DJ</div>
+                <h3 id="playlistname">Playlist</h3>
             </div>
-            <form id="youtube-url">
-                <label for="youtube-url-input">Youtube Url: </label><input id="youtube-url-input" type="text" size="100"/>
-                <input type="submit" id="youtube-url-submit">
-            </form>
+            <div id="playlist">Loading...</div>
+            <div id="add-content-box" class="max-outer">
+                <div class="max-inner">
+                    <form id="add-content-form">
+                        <label for="search-input">Search for content</label>
+                        <input id="search-input" type="text" size="100">
+                        <div class="form-buttons">
+                            <input type="submit" id="search-spotify-submit" value="Search on Spotify">
+                            <input type="submit" id="youtube-url-submit" value="Add Youtube URL">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="search-results-box" class="max-outer">
+                <div class="max-inner">
+                    <h3>Search Results</h3>
+                    <div id="search-results"></div>
+                    <button id="close-search-results">close</button>
+                </div>
+            </div>
+            <div id="add-content-box-placeholder"></div>
         </div>
     </div>
+
 </body>
 </html>

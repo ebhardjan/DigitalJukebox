@@ -1,14 +1,10 @@
 #venuesview {
-
+    position: relative;
+    height: auto;
 }
 
 #playlistview {
     display: none;
-}
-
-#venuesview, #playlistview {
-    width: 100%;
-    height: 100%;
 }
 
 #venuesnearby {
@@ -18,10 +14,41 @@
 .playlistentry {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 2em;
+}
+
+.playlistentry-left {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+div.entry-name {
+    overflow: hidden;
+}
+
+.entry-type {
+    flex-shrink: 0;
+    height: 1.4em;
+    width: 1.4em;
+    float: left;
+    margin-right: 0.4em;
+    background-size: cover;
+}
+
+.icon-spotify {
+    background-image: url('../img/spotify.png');
+}
+
+.icon-youtube {
+    background-image: url('../img/youtube.png');
 }
 
 .voting {
     flex-basis: 75px;
+    flex-shrink: 0;
+    flex-grow: 0;
     display: flex;
     justify-content: space-between;
     margin-right: 5px;
@@ -30,4 +57,88 @@
 .voting > div {
     margin-left: 5px;
     margin-right: 5px;
+}
+
+#content {
+    margin: 3vh auto 0 auto;
+    width: 90vw;
+}
+
+@media screen and (min-width: 765px) {
+    #content {
+        width: 700px;
+    }
+}
+
+.venue {
+    font-size: 1.5em;
+    padding: 8px 5px 5px 8px;
+    margin-bottom: 5px;
+    background-color: #212121;
+    border-radius: 3px;
+}
+
+.venue:hover {
+    background-color: #616161;
+}
+
+#new {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #E64A19;
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    line-height: 58px;
+    border-radius: 26px;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 4px 5px 6px #212121;
+}
+
+#search-input {
+    margin: 0.8em 0;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.form-buttons input {
+    flex-basis: 100px;
+}
+
+#add-content-box {
+    position: fixed;
+    bottom: 2vh;
+    z-index: 10;
+}
+
+#add-content-box-placeholder {
+    height: 7em;
+}
+
+#search-results-box {
+    position: fixed;
+    z-index: 20;
+    top: 5vw;
+}
+
+.max-outer {
+    margin-left: auto;
+    width: 90vw;
+    max-width: 700px;
+}
+
+.max-inner {
+    position: relative;
+    padding: 2vh 2vw;
+    background-color: #212121;
+    border-radius: 6px;
+}
+
+#close-search-results {
+    margin: 1em auto;
 }
