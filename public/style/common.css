@@ -20,6 +20,8 @@ body {
 }
 
 h2 {
+    margin: 10px 0;
+    font-size: 1.3em;
 }
 
 h3 {
@@ -82,3 +84,16 @@ input[type=text] {
 .primary-text-color    { color: #212121; }
 .secondary-text-color  { color: #757575; }
 .divider-color         { border-color: #BDBDBD; }
+
+.max-outer {
+    margin: auto;
+    width: 90vw;
+    max-width: 700px;
+}
+
+.max-inner {
+    position: relative;
+    padding: 2vh 2vw;
+    background-color: #212121;
+    border-radius: 6px;
+}
