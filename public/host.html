@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Jukebox Admin</title>
+    <link rel="stylesheet" href="style/reset.css" />
+    <link rel="stylesheet" href="style/host.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <script src="script/common.js"></script>
+    <script src="script/host.js"></script>
+</head>
+<body>
+    <div id="content">
+        <h2>Jukebox Admin</h2>
+        <div id="setup-view">
+            <h3>Create New Venue</h3>
+            <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
+            <p>Spotify Login: [...]</p>
+            <input type="submit" id="new-venue" />
+        </div>
+        <div id="player-view">Player [...]</div>
+    </div>
+</body>
+</html>
