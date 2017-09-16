@@ -31,12 +31,12 @@ function updateSpotifySearchResults(results) {
 	console.log(results);
 }
 
-function searchSpotify() {
-    var searchQuery = $('#search_spotify').val();
-    var data = {};
-	data.type = 'spotify_search_query';
-	data.payload = searchQuery;
-	console.log("emmit to host: " + JSON.stringify(data));
+function onSearchSpotify() {
+	var searchQuery = $('#search_spotify').val();
+	pushToHost({type: 'spotifySearchQuery', payload: searchQuery});
+}
+
+function pushToHost(data) {
 	socket.emit('toHost', data);
 }
 
@@ -131,6 +131,6 @@ function pushAddEntry(type, id, name) {
 $(function(){
 	$venuesview = $('#venuesview');
 	$playlistview = $('#playlistview');
-	$('#search-spotify').on('click', searchSpotify);
+	$('#search-spotify').on('click', onSearchSpotify);
 	switchToVenuesMode();
 });

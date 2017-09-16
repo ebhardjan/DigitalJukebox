@@ -61,5 +61,12 @@ module.exports = class Host {
 		this.pushPlaylist();
 		this.pushPlaylistToGuests();
 	}
+
+	/**
+	 * forward to host
+	 */
+	pushToHost(data) {
+		this.socket.emit('toHost', data);
+	}
 };
 

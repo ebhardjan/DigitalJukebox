@@ -30,9 +30,7 @@ function establishConnection(cb) {
 	socket.on('connect', function() {
 		console.log("connect");
 		socketId = socket.id;
-		socket.on('toHost', function(data) {
-			console.log(data);
-		});
+		socket.on('toHost', onToHost);
 		cb();
 	});
 }
@@ -45,6 +43,13 @@ function switchToSetupView() {
 function switchToPlayerView() {
 	$setupView.hide();
 	$playerView.show();
+}
+
+/**
+ * forwarded from guest
+ */
+function onToHost(data) {
+	console.log('forwarded from guest ' + JSON.stringify(data));
 }
 
 $(function() {
