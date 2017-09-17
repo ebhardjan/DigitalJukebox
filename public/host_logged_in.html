@@ -36,8 +36,8 @@
         <div id="setup-view" class="max-inner">
             <h2>Create New Venue</h2>
             <form id="new-venue">
-                <p><label for="venue-name">Name:</label><input type="text" id="venue-name"/></p>
-                <p><input type="checkbox" id="sort-by-popularity"/><label for="sort-by-popularity">Sort content by popularity?</label></p>
+                <p><label for="venue-name">Name:</label><input type="text" id="venue-name" value="HackZurich2017"/></p>
+                <p><input type="checkbox" id="sort-by-popularity" checked/><label for="sort-by-popularity">Sort content by popularity?</label></p>
                 <p><label for="num-downvotes">How many downvotes to drop content?</label><input type="number" id="num-downvotes" value="5"/></p>
                 <p><input type="submit"/></p>
             </form>
@@ -47,11 +47,14 @@
 
 <div id="spotify-info">
     <img id="album-art" width="200" height="200">
-    <div id="spotify-info-text">
-        <span id="current_song"></span> - <span id="current_artist"></span>
+    <div id="spotify-info-container">
+        <div id="spotify-info-text">
+            <span id="current_artist"></span> - <span id="current_song"></span>
+        </div>
         <div id="fancy-bar">
             <div id="fancy-bar-fill"></div>
         </div>
+        <span id="song-time"></span>
     </div>
 </div>
 

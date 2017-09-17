@@ -5,6 +5,13 @@ function SpotifyPlayer() {
     this.timeout = undefined;
 }
 
+function formatSeconds(seconds) {
+	var min = Math.floor(seconds / 60).toString();
+	var sec = Math.floor(seconds % 60).toString();
+	if (sec.length === 1) sec = '0' + sec;
+	return min + ':' + sec;
+}
+
 SpotifyPlayer.prototype.play = function (playlistElement, callback) {
     if (this.timeout !== undefined) {
         this.timeout.cancel();
@@ -12,13 +19,15 @@ SpotifyPlayer.prototype.play = function (playlistElement, callback) {
     }
     setTrackTo(playlistElement.id, function() {
         window.setTimeout(function() {
-            getRemainingTime(function (remaining_time) {
+            getRemainingTime(function (remaining_time, length, progress) {
                 console.log(remaining_time * 1000);
                 var counter = 0;
                 var periodical = setInterval(function() {
-                    var percentage = (((counter/2 - remaining_time) / remaining_time) + 1) * 100;
+                	  var actualProgress = progress + counter/2;
+                    var percentage = (actualProgress / length) * 100;
                     $('#fancy-bar-fill').css('width', percentage + '%');
                     counter++;
+                    $('#song-time').html(formatSeconds(actualProgress) + ' / ' + formatSeconds(length));
                 }, 500);
                 this.timeout = window.setTimeout(function f() {
                     console.log("next element callback");
@@ -160,7 +169,7 @@ function getRemainingTime(callback) {
         const progress = parseInt(result['progress_ms']) / 1000;
         const length = parseInt(result['item']['duration_ms']) / 1000;
         const remaining = length - progress;
-        callback(remaining);
+        callback(remaining, length, progress);
     });
 }
 
