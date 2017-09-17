@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logged In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="style/reset.css" />
+    <link rel="stylesheet" href="style/common.css" />
+    <link rel="stylesheet" href="style/host.css" />
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+</head>
+<style>
+    #host {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 280px;
+        margin-top: -100px;
+        margin-left: -140px;
+        text-align: center;
+    }
+
+    #guest {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 280px;
+        margin-left: -140px;
+        text-align: center;
+    }
+</style>
+<body>
+<input id="host" type="button" value="Host (others can play music on your device)" onclick="window.location.href = '/login';">
+<input id="guest" type="button" value="Guest (you can play music on other's devices)" onclick="window.location.href = '/guest.html';">
+</body>
+</html>
