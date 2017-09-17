@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Logged In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="style/reset.css" />
     <link rel="stylesheet" href="style/common.css" />
     <link rel="stylesheet" href="style/host.css" />
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -13,48 +15,38 @@
     <script src="script/youtube.js"></script>
     <script src="script/meme.js"></script>
     <script src="script/host.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Khula" rel="stylesheet">
 </head>
 <body>
+<div id="background-image"></div>
 
-<div id="content">
-    <h2>Jukebox Admin</h2>
-    <div id="setup-view">
-        <h3>Create New Venue</h3>
-        <form id="new-venue">
-            <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
-            <input type="submit" />
-        </form>
+<input id="go_button" type="button" value="Start" onclick="requestFullScreen(); $('#go_button').hide(); playlistManager.nextElement();">
+
+<div id="youtube-wrapper">
+    <div id="youtube-player">
+        <h3 id="video-title"></h3>
+        <div id="youtube-video"></div>
     </div>
-    <div id="player-view">
-        <div id="spotify-player">
-            <ul>
-                <li>
-                    Current Song: <span id="current_song"></span> - <span id="current_artist"></span>
-                </li>
-                <li>
-                    Progress: <span id="progress"></span> / <span id="total_length"></span>
-                </li>
-                <li>
-                    Remaining: <span id="remaining"></span>
-                </li>
-            </ul>
+</div>
 
-            <form>
-                <label>Next song</label>
-                <input type="text" id="next_song_id" value="spotify:track:3ZOEytgrvLwQaqXreDs2Jx" size="100">
-                <input type="button" value="Go" onclick="setNextTrack()">
+<div id="setup-view-container">
+    <h1 id="logo-big">DJ</h1>
+    <div class="max-outer">
+        <div id="setup-view" class="max-inner">
+            <h2>Create New Venue</h2>
+            <form id="new-venue">
+                <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
+                <input type="submit"/>
             </form>
-            <form>
-                <label>Query</label>
-                <input type="text" id="query" value="query" size="100">
-                <input type="button" value="Go" onclick="searchSpotify($('#query').val())">
-            </form>
-            <input type="button" value="startplayback" onclick="playlistManager.nextElement()">
         </div>
-        <div id="youtube-player">
-            <h3 id="video-title"></h3>
-            <div id="youtube-video"></div>
-        </div>
+    </div>
+</div>
+
+<div id="spotify-info">
+    <img id="album-art" width="200" height="200">
+    <div id="spotify-info-text">
+        <span id="current_song"></span> - <span id="current_artist"></span>
     </div>
 </div>
 

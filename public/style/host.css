@@ -1,8 +1,85 @@
+body {
+    background-color: black;
+}
 
+#background-image {
+    z-index: -1;
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(25px) brightness(0.5);
+}
 #setup-view {
-
 }
 
 #player-view {
     display: block;
+}
+
+#spotify-info {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 0;
+    margin: 30px 5vw;
+    width: 90vw;
+    background-color: #212121;
+    border-radius: 10px;
+}
+
+#spotify-info-text {
+    font-family: 'Acme', sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+    display: inline-block;
+    align-self: center;
+}
+
+#album-art {
+    display: inline-block;
+}
+
+@media screen and (min-width: 1000px) {
+    #spotify-info {
+        width: calc(1000px - 10vw);
+        left: 50%;
+        margin: 30px calc(-500px + 5vw);
+    }
+}
+
+#youtube-video {
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+#youtube-wrapper {
+    display: none;
+}
+
+#venuesview {
+    position: relative;
+    height: auto;
+}
+
+#setup-view-container {
+    position: relative;
+}
+
+#go_button {
+    position: fixed;
+    width: 100px;
+    height: 50px;
+    left: 50%;
+    margin-left: -50px;
+    top: 50%;
+    margin-top: -25px;
 }
