@@ -11,6 +11,7 @@ function establishConnection(cb) {
 		socketId = socket.id;
 		socket.on('setPlaylist', onSetPlaylist);
 		socket.on('availableHosts', onAvailableHosts);
+		socket.on('disconnectHost', onDisconnectHost);
 		socket.on('toGuest', onToGuest);
 		cb();
 	});
@@ -96,6 +97,10 @@ function onAvailableHosts(data) {
 			$venues.append(el);
 		})(data.hosts[i]);
 	}
+}
+
+function onDisconnectHost() {
+	switchToVenuesMode();
 }
 
 function pushPickHost(id) {

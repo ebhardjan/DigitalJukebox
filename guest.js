@@ -1,11 +1,12 @@
 const winston = require('winston');
 
 module.exports = class Guest {
-	constructor(socket, data, hosts) {
+	constructor(socket, data, hostLocations) {
 		this.socket = socket;
 		this.connectionId = socket.id;
+		this.locationId = data.locationId;
 		this.id = data.id;
-		this.availableHosts = hosts;
+		this.hostLocations = hostLocations;
 		this.host = null;
 
 		socket.on('disconnect', this.onDisconnectGuest.bind(this));
@@ -24,7 +25,8 @@ module.exports = class Guest {
 	}
 
 	onPickHost(data) {
-		this.host = this.availableHosts.find(h => h.id === data.hostId) || null;
+		const hosts = this.hostLocations.get(this.locationId) || null;
+		this.host = (hosts && hosts.find(h => h.id === data.hostId)) || null;
 		if (this.host) {
 			this.host.guests.add(this);
 			this.pushPlaylist();
@@ -80,7 +82,7 @@ module.exports = class Guest {
 	}
 
 	pushAvailableHosts() {
-		const hosts = this.availableHosts.map(h => ({name: h.name, id: h.id}));
+		const hosts = (this.hostLocations.get(this.locationId) || []).map(h => ({name: h.name, id: h.id}));
 		this.socket.emit('availableHosts', {hosts});
 	}
 
@@ -89,5 +91,9 @@ module.exports = class Guest {
 	 */
 	pushToGuest(data) {
 		this.socket.emit('toGuest', data);
+	}
+
+	pushDisconnectHost() {
+		this.socket.emit('disconnectHost');
 	}
 };

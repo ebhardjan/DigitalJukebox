@@ -44,16 +44,18 @@ io.on('connection', socket => {
 		winston.debug(`register host`, data);
 		const locationId = data.locationId;
 		if (!hosts.has(locationId)) hosts.set(locationId, []);
-		hosts.get(locationId).push(new Host(socket, data, hosts));
+		hosts.get(locationId).push(new Host(socket, data, hosts, guests));
+
+		// re-send the 'availableHosts' message, to all guests
+		(guests.get(locationId) || []).forEach(g => g.pushAvailableHosts());
 	});
 
 	socket.on('registerGuest', data => {
 		winston.debug(`register guest`, data);
 		const locationId = data.locationId;
-		const availableHosts = hosts.get(locationId) || [];
 
 		if (!guests.has(locationId)) guests.set(locationId, []);
-		guests.get(locationId).push(new Guest(socket, data, availableHosts));
+		guests.get(locationId).push(new Guest(socket, data, hosts));
 	});
 
 	socket.on('disconnect', () => {

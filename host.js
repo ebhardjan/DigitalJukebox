@@ -4,7 +4,7 @@ const {Playlist, PlaylistEntry} = require('./playlist');
 
 module.exports = class Host {
 
-	constructor(socket, data, hostLocations) {
+	constructor(socket, data, hostLocations, guestLocations) {
 		this.id = data.id;
 		this.socket = socket;
 		this.connectionId = socket.id;
@@ -13,6 +13,7 @@ module.exports = class Host {
 		this.name = data.name;
 		this.locationId = data.locationId;
 		this.hostLocations = hostLocations;
+		this.guestLocations = guestLocations;
 
 		socket.on('disconnect', this.onDisconnectHost.bind(this));
 		socket.on('setCurrentPlaylistEntry', this.onSetCurrentPlaylistEntry.bind(this));
@@ -23,12 +24,14 @@ module.exports = class Host {
 		// delete from global hosts list
 		this.hostLocations.set(this.locationId, this.hostLocations.get(this.locationId).filter(h => h !== this));
 
-		// re-send the 'availableHosts' message. guest shall interpret that as a dropped connection.
+		// disconnect from connected guests
 		this.guests.forEach(guest => {
 			guest.host = null;
-			guest.availableHosts.splice(guest.availableHosts.indexOf(this), 1);
-			guest.pushAvailableHosts()
+			guest.pushDisconnectHost();
 		});
+
+		// re-send the 'availableHosts' message, to all guests
+		(this.guestLocations.get(this.locationId) || []).forEach(g => g.pushAvailableHosts());
 	}
 
 	/**
