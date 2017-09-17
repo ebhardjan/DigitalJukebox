@@ -15,6 +15,11 @@ body {
     filter: blur(25px) brightness(0.5);
 }
 #setup-view {
+    background-color: #212121;
+}
+
+input {
+    margin-top: 10px;
 }
 
 #player-view {
