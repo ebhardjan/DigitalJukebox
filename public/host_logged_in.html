@@ -36,8 +36,10 @@
         <div id="setup-view" class="max-inner">
             <h2>Create New Venue</h2>
             <form id="new-venue">
-                <label for="venue-name">Name:</label><input type="text" id="venue-name"/>
-                <input type="submit"/>
+                <p><label for="venue-name">Name:</label><input type="text" id="venue-name"/></p>
+                <p><input type="checkbox" id="sort-by-popularity"/><label for="sort-by-popularity">Sort content by popularity?</label></p>
+                <p><label for="num-downvotes">How many downvotes to drop content?</label><input type="number" id="num-downvotes" value="5"/></p>
+                <p><input type="submit"/></p>
             </form>
         </div>
     </div>

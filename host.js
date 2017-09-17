@@ -5,15 +5,18 @@ const {Playlist, PlaylistEntry} = require('./playlist');
 module.exports = class Host {
 
 	constructor(socket, data, hostLocations, guestLocations) {
+		const venueSettings = data.venueSettings;
 		this.id = data.id;
 		this.socket = socket;
 		this.connectionId = socket.id;
-		this.playlist = new Playlist(this);
 		this.guests = new Set();
-		this.name = data.name;
+		this.name = venueSettings.name;
+		this.nDownvotes = venueSettings.nDownvotes;
+		this.sortByPopularity = venueSettings.sortByPopularity;
 		this.locationId = data.locationId;
 		this.hostLocations = hostLocations;
 		this.guestLocations = guestLocations;
+		this.playlist = new Playlist(this, this.nDownvotes, this.sortByPopularity);
 
 		socket.on('disconnect', this.onDisconnectHost.bind(this));
 		socket.on('setCurrentPlaylistEntry', this.onSetCurrentPlaylistEntry.bind(this));
