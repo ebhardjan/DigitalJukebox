@@ -31,7 +31,12 @@ SpotifyPlayer.prototype.play = function (playlistElement, callback) {
 };
 
 SpotifyPlayer.prototype.playRandom = function (callback) {
-    var playlistElement = {'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'};
+    var elements = [{'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'},
+        {'id': 'https://open.spotify.com/track/6o1IkT0nSi9qwfvYDyLC3l'},
+        {'id': 'spotify:track:67zorZoUSqyq0uB2s5OCGs'}
+    ];
+    var random = Math.floor((Math.random() * elements.length));
+    var playlistElement = elements[random];
     this.play(playlistElement, callback);
 };
 
