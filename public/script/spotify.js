@@ -14,8 +14,15 @@ SpotifyPlayer.prototype.play = function (playlistElement, callback) {
         window.setTimeout(function() {
             getRemainingTime(function (remaining_time) {
                 console.log(remaining_time * 1000);
+                var counter = 0;
+                var periodical = setInterval(function() {
+                    var percentage = (((counter/2 - remaining_time) / remaining_time) + 1) * 100;
+                    $('#fancy-bar-fill').css('width', percentage + '%');
+                    counter++;
+                }, 500);
                 this.timeout = window.setTimeout(function f() {
                     console.log("next element callback");
+                    window.clearInterval(periodical);
                     callback();
                 }, remaining_time * 1000 + 1000);
                 updateCurrentlyPlaying();
