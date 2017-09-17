@@ -92,7 +92,7 @@ function onAvailableHosts(data) {
 			el.on('click', function() {
 				switchToPlaylistMode();
 				pushPickHost(host.id);
-				$('#playlistname').html('Playlist at ' + host.name + ':');
+				$('#playlistname').html('Playlist at "' + host.name + '"');
 			});
 			$venues.append(el);
 		})(data.hosts[i]);
