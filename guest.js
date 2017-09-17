@@ -50,7 +50,7 @@ module.exports = class Guest {
 			default:
 				return winston.error(`guest: onVote with invalid vote direction ${data.dir}!`);
 		}
-		this.host.pushPlaylistToGuests();
+		this.host.pushPlaylistToAll();
 	}
 
 	onAddEntry(data) {

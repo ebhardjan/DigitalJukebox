@@ -81,7 +81,6 @@ class PlaylistEntry {
 		this.upvotes.add(guest.id);
 		this.downvotes.delete(guest.id);
 		this.playlist.maybeSort();
-		this.playlist.host.pushPlaylistToGuests();
 	}
 
 	/**
@@ -99,7 +98,6 @@ class PlaylistEntry {
 			}
 		}
 		this.playlist.maybeSort();
-		this.playlist.host.pushPlaylistToGuests();
 	}
 
 	getBalance() {
