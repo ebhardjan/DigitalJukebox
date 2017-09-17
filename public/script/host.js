@@ -31,9 +31,14 @@ function onNewVenue(event) {
     var $venueName = $('#venue-name');
     var name = $venueName.val();
     if (!name) {
-        alert('Please enter a name for the venue.');
-        return;
+        return alert('Please enter a name for the venue.');
     }
+    var sortByPopularity = $('#sort-by-popularity').is(':checked');
+    var nDownvotes = parseInt($('#num-downvotes').val());
+    if (nDownvotes <= 0) {
+        return alert('Please enter a valid number of downvotes.');
+    }
+    var venueSettings = {name: name, nDownvotes: nDownvotes, sortByPopularity: sortByPopularity};
     id = getId();
 
     $newVenue.hide();
@@ -41,7 +46,7 @@ function onNewVenue(event) {
 
     findLocation(function () {
         establishConnection(function () {
-            socket.emit('registerHost', {id: id, name: name, locationId: locationId});
+            socket.emit('registerHost', {id: id, venueSettings: venueSettings, locationId: locationId});
             hideSetupView();
         });
     });

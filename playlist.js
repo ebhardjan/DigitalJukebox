@@ -5,8 +5,10 @@ const winston = require('winston');
  * Also keep track of already removed songs so they cannot be added again.
  */
 class Playlist {
-	constructor(host) {
+	constructor(host, nDownvotes, sortByPopularity) {
 		this.host = host;
+		this.nDownvotes = nDownvotes;
+		this.sortByPopularity = sortByPopularity;
 		this.list = [];
 		this.blacklist = new Set();
 	}
@@ -21,7 +23,14 @@ class Playlist {
 
 		const entry = new PlaylistEntry(type, id, name, this);
 		this.list.push(entry);
+		this.maybeSort();
 		this.host.pushPlaylistToAll();
+	}
+
+	maybeSort() {
+		if (this.sortByPopularity) {
+			this.list = this.list.sort((lhs, rhs) => rhs.getBalance() - lhs.getBalance());
+		}
 	}
 
 	getEntry(type, id) {
@@ -69,23 +78,26 @@ class PlaylistEntry {
 	voteUp(guest) {
 		this.upvotes.add(guest.id);
 		this.downvotes.delete(guest.id);
+		this.playlist.maybeSort();
+		this.playlist.host.pushPlaylistToGuests();
 	}
 
 	/**
-	 * If balance is -5, delete from playlist and blacklist.
+	 * If balance is too low, delete from playlist and blacklist.
 	 */
 	voteDown(guest) {
 		this.downvotes.add(guest.id);
 		this.upvotes.delete(guest.id);
 
-		if (this.getBalance() <= -5) {
+		if (this.getBalance() <= -this.playlist.nDownvotes) {
 			this.playlist.blacklist.add({type: this.type, id: this.id});
 			const idx = this.playlist.list.indexOf(this);
 			if(idx >= 0) {
 				this.playlist.list.splice(idx, 1);
 			}
-			this.playlist.host.pushPlaylistToAll();
 		}
+		this.playlist.maybeSort();
+		this.playlist.host.pushPlaylistToGuests();
 	}
 
 	getBalance() {
