@@ -136,6 +136,7 @@ div.entry-name {
 }
 
 #search-results-box {
+    box-shadow: 0 0 0 1000px black;
     position: fixed;
     z-index: 20;
     top: 5vw;
@@ -143,6 +144,10 @@ div.entry-name {
     max-height: 94vh;
     overflow: scroll;
     border-radius: 5px;
+}
+
+#search-results-box::-webkit-scrollbar {
+    display: none;
 }
 
 #search-results-box h3 {
