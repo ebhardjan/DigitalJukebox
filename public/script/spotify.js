@@ -39,13 +39,24 @@ SpotifyPlayer.prototype.play = function (playlistElement, callback) {
         }, 1000)}.bind(this));
 };
 
-SpotifyPlayer.prototype.playRandom = function (callback) {
-    var elements = [{'id': 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ'},
-        {'id': 'https://open.spotify.com/track/6o1IkT0nSi9qwfvYDyLC3l'},
-        {'id': 'spotify:track:67zorZoUSqyq0uB2s5OCGs'}
+SpotifyPlayer.prototype.playRandom = function (callback, callbackNotifyServer) {
+    var elements = [
+				{
+					type: 'spotify', id: 'spotify:track:0uH3OXsGFEPLylZyi2S9EJ', balance: 0,
+					name: 'Sufjan Stevens - One last "Whoo-hoo!" for the Pullman'
+				},
+				{
+        	type: 'spotify', id: 'https://open.spotify.com/track/6o1IkT0nSi9qwfvYDyLC3l', balance: 0,
+	        name: 'Silverstein - The Ballad of Wilhelm Fink (Originally by Green Day)'
+        },
+        {
+        	type: 'spotify', id: 'spotify:track:67zorZoUSqyq0uB2s5OCGs', balance: 0,
+	        name: 'Silverstein - Quit Your Job (Originally by Chixdiggit)'
+        }
     ];
     var random = Math.floor((Math.random() * elements.length));
     var playlistElement = elements[random];
+    if(typeof callbackNotifyServer === 'function') callbackNotifyServer(playlistElement);
     this.play(playlistElement, callback);
 };
 

@@ -41,6 +41,19 @@ div.entry-name {
     background-size: cover;
 }
 
+.now-playing {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0;
+    margin: 0.5em 0;
+    background-color: #424242;
+    border-radius: 5px;
+}
+
+.now-playing > p {
+    align-self: center;
+}
+
 .entry-type {
     flex-shrink: 0;
     height: 1.4em;

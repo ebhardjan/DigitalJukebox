@@ -1,5 +1,5 @@
 function HostPlaylistManager(f) {
-    this.playlist = {};
+    this.playlist = [];
     this.notifyServer = f;
     this.showMemes = false;
     this.spotifyPlayer = new SpotifyPlayer();
@@ -7,9 +7,9 @@ function HostPlaylistManager(f) {
     this.memePlayer = new MemePlayer();
 }
 
-HostPlaylistManager.prototype.updatePlaylist = function(playlist) {
-    console.log('HostPlaylistManager: updatePlaylist to ' + JSON.stringify(playlist));
-    this.playlist = playlist;
+HostPlaylistManager.prototype.updatePlaylist = function(data) {
+    console.log('HostPlaylistManager: updatePlaylist to ' + JSON.stringify(data));
+    this.playlist = (data.playlist || []).slice(1);
 };
 
 /**
@@ -19,9 +19,10 @@ HostPlaylistManager.prototype.updatePlaylist = function(playlist) {
 HostPlaylistManager.prototype.nextElement = function() {
     console.log('PlaylistManager, nextElement()');
 
-    if (this.playlist === undefined || this.playlist.playlist === undefined
-        || this.playlist.playlist.length === 0) {
-        this.spotifyPlayer.playRandom(this.nextElement.bind(this));
+    if (this.playlist === undefined || this.playlist.length === 0) {
+        this.spotifyPlayer.playRandom(this.nextElement.bind(this), function(randomPlaylistElement) {
+            this.notifyServer(randomPlaylistElement);
+        }.bind(this));
         showSpotify();
         hideYoutube();
         return;
@@ -29,19 +30,18 @@ HostPlaylistManager.prototype.nextElement = function() {
 
     var foundSong = false;
 
-    for (var i = 0; i < this.playlist.playlist.length; i++) {
-        var playlistElement = this.playlist.playlist[i];
+    for (var i = 0; i < this.playlist.length; i++) {
+        var playlistElement = this.playlist[i];
         if (playlistElement.type === 'spotify') {
             this.spotifyPlayer.play(playlistElement, this.nextElement.bind(this));
             this.showMemes = true;
-            this.nextMeme();
+            //this.nextMeme();
             this.notifyServer(playlistElement);
             foundSong = true;
             showSpotify();
             hideYoutube();
             return;
         } else if (playlistElement.type === 'youtube') {
-
             this.youtubePlayer.play(playlistElement, this.nextElement.bind(this));
             this.spotifyPlayer.stop(function(){});
             this.showMemes = false;

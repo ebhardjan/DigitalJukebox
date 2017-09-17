@@ -49,6 +49,7 @@ module.exports = class Host {
 				break;
 			}
 		}
+		this.playlist.list.unshift(new PlaylistEntry(data.type, data.id, data.name, this.playlist));
 		this.pushPlaylistToAll();
 	}
 

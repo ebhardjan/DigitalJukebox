@@ -29,7 +29,9 @@ class Playlist {
 
 	maybeSort() {
 		if (this.sortByPopularity) {
-			this.list = this.list.sort((lhs, rhs) => rhs.getBalance() - lhs.getBalance());
+			const tmp = this.list[0];
+			this.list = this.list.slice(1).sort((lhs, rhs) => rhs.getBalance() - lhs.getBalance());
+			if (tmp) this.list.unshift(tmp);
 		}
 	}
 
@@ -41,7 +43,7 @@ class Playlist {
 	 * Return representation with data relevant for host, i.e. what entries to play next.
 	 */
 	serializeHost() {
-		return this.list.map(e => ({type: e.type, id: e.id}));
+		return this.list.map(e => ({type: e.type, id: e.id, name: e.name, balance: e.getBalance()}));
 	}
 
 	/**

@@ -116,24 +116,27 @@ function switchToPlaylistMode() {
 }
 
 function onSetPlaylist(data) {
-	// re-render whole playlist
 	var $playlist = $('#playlist');
 	$playlist.empty();
 
+	// re-render whole playlist
 	for (var i = 0; i < data.playlist.length; i++) {
 		(function(entry) {
+			var el = $('<div class="playlistentry"/>');
+
 			var upvoteClass = entry.yourVote === 'up' ? 'fa-thumbs-up' : 'fa-thumbs-o-up';
 			var downvoteClass = entry.yourVote === 'down' ? 'fa-thumbs-down' : 'fa-thumbs-o-down';
 			var upvote = $('<div class="upvote"><i class="fa ' + upvoteClass + '"></i></div>');
 			var downvote = $('<div class="downvote"><i class="fa ' + downvoteClass + '"></i></div>');
-			upvote.on('click', function() {
-				pushVote(entry, 'up');
-			});
-			downvote.on('click', function() {
-				pushVote(entry, 'down');
-			});
+			if(i >= 1) {
+				upvote.on('click', function() {
+					pushVote(entry, 'up');
+				});
+				downvote.on('click', function() {
+					pushVote(entry, 'down');
+				});
+			}
 
-			var el = $('<div class="playlistentry"/>');
 			el.append('<div class="playlistentry-left"><div class="entry-type icon-'
 				+ entry.type + '"/><div class="entry-name">' + entry.name + '</div></div>');
 			var votingEl = $('<div class="voting"/>');
@@ -143,13 +146,20 @@ function onSetPlaylist(data) {
 			votingEl.append(upvote);
 			el.append(votingEl);
 
-			$playlist.append(el);
+			if(i >= 1) {
+				$playlist.append(el);
+			} else {
+				var $wrapper = $('<div class="now-playing"/>');
+				$wrapper.append('<p>Now playing:</p>');
+				$wrapper.append(el);
+				$playlist.append($wrapper);
+			}
 		})(data.playlist[i]);
 	}
 
-	if (data.playlist.length === 0) {
+	if (data.playlist.length <= 1) {
         var $playlist = $('#playlist');
-        $playlist.html('The playlist is empty, add a song!<br><br>');
+        $playlist.append('The playlist is empty, add a song!<br><br>');
 	}
 }
 
