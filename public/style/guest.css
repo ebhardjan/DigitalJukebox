@@ -139,7 +139,7 @@ div.entry-name {
     box-shadow: 0 0 0 1000px black;
     position: fixed;
     z-index: 20;
-    top: 5vw;
+    top: 3vh;
     background-color: #424242;
     max-height: 94vh;
     overflow: scroll;
