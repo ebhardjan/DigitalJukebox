@@ -5,6 +5,26 @@ var socketId = null;
 var playlistManager = null;
 var id = null;
 
+// this is some copy paste shit...
+function requestFullScreen() {
+    var el = document.documentElement
+        , rfs = // for newer Webkit and Firefox
+        el.requestFullScreen
+        || el.webkitRequestFullScreen
+        || el.mozRequestFullScreen
+        || el.msRequestFullscreen
+    ;
+    if (typeof rfs != "undefined" && rfs) {
+        rfs.call(el);
+    } else if (typeof window.ActiveXObject != "undefined") {
+        // for Internet Explorer
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript != null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+}
+
 function onNewVenue(event) {
     event.preventDefault();
     var $newVenue = $('#new-venue');
@@ -22,7 +42,7 @@ function onNewVenue(event) {
     findLocation(function () {
         establishConnection(function () {
             socket.emit('registerHost', {id: id, name: name, locationId: locationId});
-            switchToPlayerView();
+            hideSetupView();
         });
     });
 }
@@ -41,12 +61,6 @@ function establishConnection(cb) {
 
 function switchToSetupView() {
     $setupView.show();
-    $playerView.hide();
-}
-
-function switchToPlayerView() {
-    $setupView.hide();
-    $playerView.show();
 }
 
 /**
@@ -105,6 +119,30 @@ $(function() {
 
 	checkLoginSetToken();
 	console.log(access_token);
-	updateCurrentlyPlaying();
+	//updateCurrentlyPlaying();
 	console.log('playManager:' + JSON.stringify(playlistManager));
+	hideSpotify();
+	hideYoutube();
+	$('#go_button').hide('fast');
 });
+
+function hideYoutube() {
+    $('#youtube-wrapper').hide('fast');
+}
+
+function showYoutube() {
+    $('#youtube-wrapper').show('fast');
+}
+
+function hideSpotify() {
+    $('#spotify-info').hide('fast');
+}
+
+function showSpotify() {
+    $('#spotify-info').show('fast');
+}
+
+function hideSetupView() {
+    $('#setup-view-container').hide('fast');
+    $('#go_button').show('fast');
+}

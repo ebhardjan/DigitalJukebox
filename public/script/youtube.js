@@ -8,6 +8,16 @@ function YoutubePlayer() {
 YoutubePlayer.prototype.onReady = function(event) {
     event.target.setVolume(100);
     event.target.playVideo();
+	// TODO fix me
+	// this should in theory trigger full screen for the youtube video but it doesn't...
+	// https://codepen.io/bfred-it/pen/GgOvLM
+	var request_obj = $('#youtube-player');
+    var requestFullScreen = request_obj.requestFullScreen
+		|| request_obj.mozRequestFullScreen
+		|| request_obj.webkitRequestFullScreen;
+    if (requestFullScreen) {
+        requestFullScreen.bind(request_obj)();
+    }
 };
 
 YoutubePlayer.prototype.onStateChange = function(event) {
