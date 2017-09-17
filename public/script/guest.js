@@ -60,12 +60,6 @@ function onBackClick() {
 	findVenues();
 }
 
-function findLocation(cb) {
-	// TODO
-	locationId = 'defaultlocation';
-	cb();
-}
-
 function switchToVenuesMode() {
 	$playlistview.hide();
 	$venuesview.show();
@@ -89,7 +83,7 @@ function onAvailableHosts(data) {
 	var $venues = $('#venueslist');
 	$venues.empty();
 	if (data.hosts.length === 0) {
-		$venues.append('no venues found!');
+		$venues.append('No venues found!');
 	}
 	for (var i = 0; i < data.hosts.length; i++) {
 		(function(host){
@@ -189,7 +183,10 @@ $(function(){
 	$('#close-search-results').on('click', onCloseSearchResults);
 	$('#logo-small').on('click', onBackClick);
 
+	var $venueslist = $('#venueslist');
+	$venueslist.html('Searching for venues in your proximity...');
 	findLocation(function() {
+		$venueslist.html('Connecting to server...');
 		establishConnection(function() {
 			findVenues();
 		});
