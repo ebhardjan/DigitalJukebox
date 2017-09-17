@@ -79,6 +79,18 @@ input {
     position: relative;
 }
 
+#num-downvotes {
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 5px;
+    position: relative;
+    top: -2px;
+}
+
+#sort-by-popularity {
+    margin-right: 10px;
+}
+
 #go_button {
     position: fixed;
     width: 100px;
