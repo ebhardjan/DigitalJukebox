@@ -1,13 +1,14 @@
 const request = require('request');
 const querystring = require('querystring');
+const config = require('./config.json');
 
 module.exports.loginFunction = loginFunction;
 module.exports.callbackFunction = callbackFunction;
 module.exports.refreshToken = refreshToken;
 
-const client_id = 'dc5b0bf3bcfe4e01bfaa3ebe4b95d613';
-const client_secret = 'df48c711091643b4a32115232480feb6';
-const redirect_uri = 'http://localhost:3000/callback';
+const client_id = config.spotify_oauth.client_id;
+const client_secret = config.spotify_oauth.client_secret;
+const redirect_uri = config.spotify_oauth.redirect_uri;
 const stateKey = 'spotify_auth_state';
 
 /**
